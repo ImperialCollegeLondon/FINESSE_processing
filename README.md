@@ -1,5 +1,6 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ImperialCollegeLondon/FINESSE_processing/main.svg)](https://results.pre-commit.ci/latest/github/ImperialCollegeLondon/FINESSE_processing/main)
 [![codecov](https://codecov.io/gh/ImperialCollegeLondon/FINESSE_processing/graph/badge.svg?token=DTS433S9E2)](https://codecov.io/gh/ImperialCollegeLondon/FINESSE_processing)
+[![CI](https://github.com/ImperialCollegeLondon/FINESSE_processing/actions/workflows/ci.yml/badge.svg)](https://github.com/ImperialCollegeLondon/FINESSE_processing/actions/workflows/ci.yml)
 
 ## Badges
 
