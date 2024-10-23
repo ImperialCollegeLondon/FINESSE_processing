@@ -1,0 +1,13 @@
+# Changes here will be overwritten by Copier
+_commit: 0.6.1
+_src_path: https://github.com/nlesc/python-template.git
+copyright_holder: Imperial College London
+email: sophie.mosselmans19@imperial.ac.uk
+full_name: Sophie Mosselmans
+github_organization: ImperialCollegeLondon
+keywords: FINESSE
+license: BSD
+package_name: finesse_processing
+package_short_description: Code for callibrating FINESSE interferograms
+template_profile: minimum
+version: 0.1.0
