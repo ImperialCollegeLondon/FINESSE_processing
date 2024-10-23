@@ -55,7 +55,7 @@ Next you will want to install the dependencies for `FINESSE_processing` along wi
 You can do this like so:
 
 ```sh
-pip install -e .[dev]
+pip install -e .[dev,scripts]
 ```
 
 ### Install `pre-commit`

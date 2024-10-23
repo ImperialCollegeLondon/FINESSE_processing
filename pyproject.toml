@@ -68,6 +68,7 @@ select = [
     "I",   # isort
     "UP",  # pyupgrade
     "RUF", # ruff
+    "NPY", # numpy
 ]
 pydocstyle.convention = "google"
 
