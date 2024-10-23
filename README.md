@@ -81,14 +81,14 @@ The details of how these scripts are going to be sorted are in the projects work
 
 Here is a description of what each of the files currently does:
 
-- **File 0**  is just reading the sensors to track BB temperatures, PRT sensors and vaisala instrument pressure temperutre humidity + co2
+- **File 0**  is just reading the sensors to track BB temperatures, PRT sensors and vaisala instrument pressure temperature humidity + co2
 
 - **File 1**  is preparing the interferograms for single or multi (averaged 40)
 
 - **File 2** is calculating the response functions (always done in multi case)
 
 - **File 3a single** is doing calibration for multi case [NOTE THIS CODE IS NOT FINISHED]
-- **File 3b mulit**  is doing calibration for single case
+- **File 3b multi**  is doing calibration for single case
 
 **Quick plot file:**
 
