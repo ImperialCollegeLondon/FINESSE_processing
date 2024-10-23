@@ -30,14 +30,18 @@ Path(RESPONSE_FUNCTION_LOCATION).mkdir(parents=True, exist_ok=True)
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
 "ADDING in averaging of individuals here"
-INDIVIDUAL_SAVE_LOCATION = PATH2+f"Processed_Data_soph_single/prepared_individual_ints/"
+INDIVIDUAL_SAVE_LOCATION = (
+    PATH2 + f"Processed_Data_soph_single/prepared_individual_ints/"
+)
 RUN_NAME = "zenith_test1"
-single_INT_LOCATION = "/disk1/sm4219/GIT/FINESSE_CAL/Processed_Data_soph_single/prepared_individual_ints/"
+single_INT_LOCATION = (
+    "/disk1/sm4219/GIT/FINESSE_CAL/Processed_Data_soph_single/prepared_individual_ints/"
+)
 FOLDERS = glob.glob(single_INT_LOCATION + "*" + RUN_NAME + "/")
 FOLDERS.sort()
 print("Folders", FOLDERS)
 
-FOLDERS_EXAMINING=FOLDERS[0:1]
+FOLDERS_EXAMINING = FOLDERS[0:1]
 AVERAGING_LENGTH = 40
 
 ints: list = []
@@ -47,10 +51,7 @@ centre_place: list = []
 
 for FOLDER in FOLDERS_EXAMINING:
     int_temp, start_end_temp, n_temp, centre_place_temp = cal.average_ints_in_folder(
-        FOLDER,
-        len_int=57090,
-        return_n=True,
-        centre_place=True
+        FOLDER, len_int=57090, return_n=True, centre_place=True
     )
     ints.append(int_temp)
     times.append(start_end_temp)
@@ -78,8 +79,7 @@ for i, interferogram in enumerate(ints):
         header=header,
     )
 
-AVERAGED_INT_LOCATION = DATA_LOCATION \
-    + "prepared_ints/"
+AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints/"
 
 
 # Find all averaged interferogram files
