@@ -16,19 +16,55 @@
 
 ## How to use finesse_processing
 
-Code for calibrating FINESSE interferograms
+Code for calibrating FINESSE interferograms.
 
 The project setup is documented in [project_setup.md](project_setup.md). Feel free to remove this document (and/or the link to this document) if you don't need it.
 
-## Installation
+## For developers
 
-To install finesse_processing from GitHub repository, do:
+### Download the code
 
-```console
+First you need to clone the repository:
+
+```sh
 git clone git@github.com:ImperialCollegeLondon/finesse_processing.git
-cd finesse_processing
-python -m pip install .
 ```
+
+### (Optionally) make a virtual environment
+
+We recommend that you create a [virtual environment](https://docs.python.org/3/library/venv.html) for `FINESSE_processing` to keep the packages installed separate. You can do this like so:
+
+```sh
+python -m venv .venv
+```
+
+You then need to activate it for your shell. If you are using `bash` then you can run:
+
+```sh
+source .venv/bin/activate
+```
+
+(If you are using a different shell, then there are other scripts in the `.venv/bin` folder you can use instead.)
+
+### Install the developer dependencies
+
+Next you will want to install the dependencies for `FINESSE_processing` along with the developer tools required to work on the project.
+
+You can do this like so:
+
+```sh
+pip install -e .[dev]
+```
+
+### Install `pre-commit`
+
+This project contains a configuration file for [`pre-commit`](https://pre-commit.com), a tool which automatically runs specified checks every time you make a commit with Git. The `pre-commit` command-line tool will be installed along with the other developer dependencies, but you **also** have to enable it for this repository, like so:
+
+```sh
+pre-commit install
+```
+
+Now, whenever you make a Git commit, your changes will be checked for errors and stylistic problems. (For a list of the hooks enabled for this repository, [see the configuration file](./.pre-commit-config.yaml)).
 
 ## Documentation
 
