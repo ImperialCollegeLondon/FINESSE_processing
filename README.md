@@ -1,6 +1,6 @@
 ## Badges
 
-(Customize these badges with your own links, and check https://shields.io/ or https://badgen.net/ to see which other badges are available.)
+(Customize these badges with your own links, and check <https://shields.io/> or <https://badgen.net/> to see which other badges are available.)
 
 | fair-software.eu recommendations | |
 | :-- | :--  |
@@ -13,9 +13,10 @@
 | **Other best practices**           | &nbsp; |
 | **GitHub Actions**                 | &nbsp; |
 | Build                              | [![build](https://github.com/ImperialCollegeLondon/finesse_processing/actions/workflows/build.yml/badge.svg)](https://github.com/ImperialCollegeLondon/finesse_processing/actions/workflows/build.yml) |
+
 ## How to use finesse_processing
 
-Code for callibrating FINESSE interferograms
+Code for calibrating FINESSE interferograms
 
 The project setup is documented in [project_setup.md](project_setup.md). Feel free to remove this document (and/or the link to this document) if you don't need it.
 
@@ -32,8 +33,6 @@ python -m pip install .
 ## Documentation
 
 Include a link to your project's full documentation here.
-
-
 
 ## Credits
 

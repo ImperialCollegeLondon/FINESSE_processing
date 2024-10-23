@@ -36,4 +36,3 @@ plt.ylabel("Radiance / [W m-2 sr-1 / cm-1]")
 plt.xlabel("Wavenumbers / [cm-1]")
 plt.legend()
 plt.savefig(SAVE + "final_look_plot.png")
-

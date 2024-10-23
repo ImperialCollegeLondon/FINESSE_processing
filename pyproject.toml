@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = []
-description = "Code for callibrating FINESSE interferograms"
+description = "Code for calibrating FINESSE interferograms"
 keywords = ["FINESSE"]
 license = {file = "LICENSE"}
 name = "finesse_processing"
@@ -109,7 +109,3 @@ filename = "src/finesse_processing/__init__.py"
 
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
-
-
-
-
