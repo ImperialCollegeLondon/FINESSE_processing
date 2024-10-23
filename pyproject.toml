@@ -40,6 +40,7 @@ dev = [
     "tox",
     "myst_parser",
 ]
+scripts = ["cycler", "matplotlib", "numpy>=2", "pandas", "scipy"]
 publishing = ["build", "twine", "wheel"]
 
 [project.urls]
@@ -67,6 +68,7 @@ select = [
     "I",   # isort
     "UP",  # pyupgrade
     "RUF", # ruff
+    "NPY", # numpy
 ]
 pydocstyle.convention = "google"
 
