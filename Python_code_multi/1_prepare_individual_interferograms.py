@@ -5,6 +5,7 @@ Produces interferograms averaged for each scan cycle
 THIS CODE IS WORKING
 """
 
+# %%
 from glob import glob
 from pathlib import Path
 from matplotlib import pyplot as plt
@@ -34,8 +35,9 @@ ints: list = []
 n: list = []
 centre_place: list = []
 run = 0
+FOLDERS_EXAMINING=FOLDERS[0:1]
 
-for FOLDER in FOLDERS:
+for FOLDER in FOLDERS_EXAMINING:
     # print("HERE is folder:", FOLDER)
     times: list = []
     Path(INDIVIDUAL_SAVE_LOCATION + FOLDER[len(INT_LOCATION) :]).mkdir(
@@ -101,3 +103,5 @@ for FOLDER in FOLDERS:
         )
         print("END OF RUN NUMBER", run_track)
         # raise(KeyboardInterrupt)
+
+# %%
