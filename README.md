@@ -1,6 +1,8 @@
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ImperialCollegeLondon/FINESSE_processing/main.svg)](https://results.pre-commit.ci/latest/github/ImperialCollegeLondon/FINESSE_processing/main)
+
 ## Badges
 
-(Customize these badges with your own links, and check https://shields.io/ or https://badgen.net/ to see which other badges are available.)
+(Customize these badges with your own links, and check <https://shields.io/> or <https://badgen.net/> to see which other badges are available.)
 
 | fair-software.eu recommendations | |
 | :-- | :--  |
@@ -13,26 +15,67 @@
 | **Other best practices**           | &nbsp; |
 | **GitHub Actions**                 | &nbsp; |
 | Build                              | [![build](https://github.com/ImperialCollegeLondon/finesse_processing/actions/workflows/build.yml/badge.svg)](https://github.com/ImperialCollegeLondon/finesse_processing/actions/workflows/build.yml) |
+
 ## How to use finesse_processing
 
-Code for callibrating FINESSE interferograms
+Code for calibrating FINESSE interferograms.
 
 The project setup is documented in [project_setup.md](project_setup.md). Feel free to remove this document (and/or the link to this document) if you don't need it.
 
-## Installation
+## For developers
 
-To install finesse_processing from GitHub repository, do:
+### Download the code
 
-```console
+First you need to clone the repository:
+
+```sh
 git clone git@github.com:ImperialCollegeLondon/finesse_processing.git
-cd finesse_processing
-python -m pip install .
 ```
 
+### (Optionally) make a virtual environment
+
+We recommend that you create a [virtual environment](https://docs.python.org/3/library/venv.html) for `FINESSE_processing` to keep the packages installed separate. You can do this like so:
+
+```sh
+python -m venv .venv
+```
+
+You then need to activate it for your shell. If you are using `bash` then you can run:
+
+```sh
+source .venv/bin/activate
+```
+
+(If you are using a different shell, then there are other scripts in the `.venv/bin` folder you can use instead.)
+
+### Install the developer dependencies
+
+Next you will want to install the dependencies for `FINESSE_processing` along with the developer tools required to work on the project.
+
+You can do this like so:
+
+```sh
+pip install -e .[dev]
+```
+
+### Install `pre-commit`
+
+This project contains a configuration file for [`pre-commit`](https://pre-commit.com), a tool which automatically runs specified checks every time you make a commit with Git. The `pre-commit` command-line tool will be installed along with the other developer dependencies, but you **also** have to enable it for this repository, like so:
+
+```sh
+pre-commit install
+```
+
+Now, whenever you make a Git commit, your changes will be checked for errors and stylistic problems. (For a list of the hooks enabled for this repository, [see the configuration file](./.pre-commit-config.yaml)).
+
+The `pre-commit` hooks will also be run on every pull request by [pre-commit.ci](https://pre-commit.ci).
+
 ## Documentation
-This is for the FINESSE instrument at Imperial. It is processing code that includes callibration and plotting. This is only python code, there is also an IDL version.
+
+This is for the FINESSE instrument at Imperial. It is processing code that includes calibration and plotting. This is only python code, there is also an IDL version.
 
 ## Python code multi
+
 This folder contains various scripts which are going to be sorted in a functions file and then scripts for running. At the moment there are about 5 scripts, we aim to get it into 2 or 3.
 The details of how these scripts are going to be sorted are in the projects workflow thingy/issues!
 
@@ -45,17 +88,17 @@ Here is a description of what each of the files currently does:
 - **File 2** is calculating the response functions (always done in multi case)
 
 - **File 3a single** is doing calibration for multi case [NOTE THIS CODE IS NOT FINISHED]
-- **File 3b mulit**  is doing calibration for single case 
+- **File 3b mulit**  is doing calibration for single case
 
 **Quick plot file:**
-- For checking the final calibration spectra output 
+
+- For checking the final calibration spectra output
 - Features to add: Time evolution plots
 
+# `src` folder
 
-# src folder
 This will eventually contain all the functions needed to run the processing code.
 We will then reach out about how to better package these in the end of November 2024
-
 
 ## Credits
 

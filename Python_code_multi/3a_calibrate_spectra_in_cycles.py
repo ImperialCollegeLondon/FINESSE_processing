@@ -10,14 +10,14 @@ import calibration_functions_sanjee as cal
 from math import floor
 
 DATE = "20230220"
-PATH = '/disk1/Andoya/sp1016/'
+PATH = "/disk1/Andoya/sp1016/"
 # DATA_LOCATION = PATH+f"Processed_Data_FOR_SOPHIE/{DATE}/"
 
-PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
-DATA_LOCATION = PATH2+f"/Processed_Data_soph/{DATE}/"
+PATH2 = "/disk1/sm4219/GIT/FINESSE_CAL/"
+DATA_LOCATION = PATH2 + f"/Processed_Data_soph/{DATE}/"
 AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints/"
 SPECTRUM_LOCATION = DATA_LOCATION + "calibrated_spectra/"
-GUI_DATA_LOCATION = PATH +f"Raw_Data/{DATE}/"+ "clear_sky1-20230220103722.log"
+GUI_DATA_LOCATION = PATH + f"Raw_Data/{DATE}/" + "clear_sky1-20230220103722.log"
 
 Path(SPECTRUM_LOCATION).mkdir(parents=True, exist_ok=True)
 OPD = 1.21
@@ -46,9 +46,15 @@ for i, name in enumerate(int_list):
     print(name)
     inter_temp, times_temp, angle_temp = cal.load_averaged_int(name)
     HBB_temp, HBB_std_temp = cal.colocate_time_range_gui(
-        gui_data, times_temp, "HBB",)
+        gui_data,
+        times_temp,
+        "HBB",
+    )
     CBB_temp, CBB_std_temp = cal.colocate_time_range_gui(
-        gui_data, times_temp, "CBB",)
+        gui_data,
+        times_temp,
+        "CBB",
+    )
     ints.append(inter_temp)
     times.append(times_temp)
     angles.append(angle_temp)
@@ -97,7 +103,7 @@ SCENE_NUMBER = floor(len(ints) / 3)
 for i in range(SCENE_NUMBER):
     print("Spectrum %i of %i" % (i + 1, SCENE_NUMBER))
     # Customise for inputs
-    HBB_index = i * 4 
+    HBB_index = i * 4
     CBB_index = i * 4 + 1
     scene_index = i * 4 + 2
     if not angles[HBB_index] == 270.0:
@@ -117,12 +123,12 @@ for i in range(SCENE_NUMBER):
         ints[CBB_index],
         HBB_temps[HBB_index],
         CBB_temps[CBB_index],
-        np.sqrt(HBB_std[HBB_index]**2 + CAL_OFFSET**2),
-        np.sqrt(CBB_std[CBB_index]**2 + CAL_OFFSET**2),
+        np.sqrt(HBB_std[HBB_index] ** 2 + CAL_OFFSET**2),
+        np.sqrt(CBB_std[CBB_index] ** 2 + CAL_OFFSET**2),
         fre_interval=OUTPUT_FREQUENCY,
     )
     # Stretch spectrum by pre calculated amount
-    wn = wn*STRETCH_FACTOR
+    wn = wn * STRETCH_FACTOR
     header = (
         "Spectrum %i of %i including wn stretch\n\n" % (i + 1, SCENE_NUMBER)
         + "Scene\nStart and end times (seconds since midnight)\n"
@@ -140,8 +146,7 @@ for i in range(SCENE_NUMBER):
         + "+ve Calibration error, -ve Calibration error"
     )
     print(header, "\n")
-    data_out = np.column_stack(
-        (wn, rad, NESR, plus_cal_error, minus_cal_error))
+    data_out = np.column_stack((wn, rad, NESR, plus_cal_error, minus_cal_error))
     np.savetxt(
         SPECTRUM_LOCATION + "%i.txt" % int(times[scene_index][0]),
         data_out,
