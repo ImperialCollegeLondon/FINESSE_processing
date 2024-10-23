@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 authors = [
-    { name = "Sophie Mosselmans", email = "sophie.mosselmans19@imperial.ac.uk" }
+    { name = "Sophie Mosselmans", email = "sophie.mosselmans19@imperial.ac.uk" },
 ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -25,32 +25,25 @@ classifiers = [
 dependencies = []
 description = "Code for calibrating FINESSE interferograms"
 keywords = ["FINESSE"]
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 name = "finesse_processing"
-readme = {file = "README.md", content-type = "text/markdown"}
+readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.8"
 version = "0.1.0"
 
 [project.optional-dependencies]
 dev = [
-    "build",  # build is not only used in publishing (below), but also in the template's test suite
+    "build",           # build is not only used in publishing (below), but also in the template's test suite
     "bump-my-version",
     "ruff",
     "tox",
     "myst_parser",
 ]
-publishing = [
-    "build",
-    "twine",
-    "wheel",
-]
+publishing = ["build", "twine", "wheel"]
 
 [project.urls]
 Repository = "https://github.com/ImperialCollegeLondon/finesse_processing"
 Issues = "https://github.com/ImperialCollegeLondon/finesse_processing/issues"
-
-
-
 
 
 [tool.tox]
@@ -99,7 +92,13 @@ pydocstyle.convention = "google"
 [tool.ruff.lint.isort]
 known-first-party = ["finesse_processing"]
 force-single-line = true
-no-lines-before = ["future","standard-library","third-party","first-party","local-folder"]
+no-lines-before = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
 
 [tool.bumpversion]
 current_version = "0.1.0"
