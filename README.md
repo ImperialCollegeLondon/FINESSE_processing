@@ -1,3 +1,5 @@
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ImperialCollegeLondon/FINESSE_processing/main.svg)](https://results.pre-commit.ci/latest/github/ImperialCollegeLondon/FINESSE_processing/main)
+
 ## Badges
 
 (Customize these badges with your own links, and check <https://shields.io/> or <https://badgen.net/> to see which other badges are available.)
@@ -65,6 +67,8 @@ pre-commit install
 ```
 
 Now, whenever you make a Git commit, your changes will be checked for errors and stylistic problems. (For a list of the hooks enabled for this repository, [see the configuration file](./.pre-commit-config.yaml)).
+
+The `pre-commit` hooks will also be run on every pull request by [pre-commit.ci](https://pre-commit.ci).
 
 ## Documentation
 
