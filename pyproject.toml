@@ -39,6 +39,9 @@ dev = [
     "ruff",
     "tox",
     "myst_parser",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
 ]
 publishing = ["build", "twine", "wheel"]
 
@@ -78,6 +81,9 @@ pydocstyle.convention = "google"
 
 # Ignore scripts as they'll be refactored soon. This can be removed at some point.
 "Python_code_multi/*" = ["ALL"]
+
+[tool.pytest.ini_options]
+addopts = "-v -p no:warnings --cov=src/finesse_processing --cov-report=html --doctest-modules --ignore=Python_code_multi"
 
 [tool.bumpversion]
 current_version = "0.1.0"
