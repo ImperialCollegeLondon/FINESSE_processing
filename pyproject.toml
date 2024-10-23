@@ -35,6 +35,7 @@ version = "0.1.0"
 dev = [
     "build",           # build is not only used in publishing (below), but also in the template's test suite
     "bump-my-version",
+    "pre-commit",
     "ruff",
     "tox",
     "myst_parser",
