@@ -3,6 +3,7 @@ Functions to help calibration of Bruker spectra
 
 includes both Sanjee's functions and ones written by Chris for single spectra case
 """
+
 import os
 from glob import glob
 import pandas as pd
@@ -99,7 +100,7 @@ def load_gui(filename):
         header=0,
         names=names,
         usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-        na_values="-"
+        na_values="-",
     )
     return gui_data
 
@@ -118,8 +119,9 @@ def string_to_seconds_bruker(time_string):
     """
     seperate = time_string.split(":")
     time_seconds = (
-        float(seperate[0]) * 60 * 60 +
-        float(seperate[1]) * 60 + floor(float(seperate[2]))
+        float(seperate[0]) * 60 * 60
+        + float(seperate[1]) * 60
+        + floor(float(seperate[2]))
     )
     return time_seconds
 
@@ -145,22 +147,27 @@ def load_ints(folder, len_int=0, centre_place=False):
         centre_point = np.argmax(data[10000:-10000])
         centre_places.append(centre_point)
         if i == 0:
-            if len_int==0:
+            if len_int == 0:
                 ints = np.empty((len(ints_names), len(data)))
             else:
                 ints = np.empty((len(ints_names), len_int))
-        if len_int==0:
+        if len_int == 0:
             ints[i, :] = data
         else:
             ints[i, :] = data[0:len_int]
     times_name = glob(folder + "/*ResultSeries.txt")[0]
     time_strings = np.loadtxt(
-        times_name, dtype="str", delimiter="\t", skiprows=2, usecols=[1], unpack=True,
+        times_name,
+        dtype="str",
+        delimiter="\t",
+        skiprows=2,
+        usecols=[1],
+        unpack=True,
     )
     times = []
     for time in time_strings:
         times.append(string_to_seconds_bruker(time))
-    if centre_place==True:
+    if centre_place == True:
         return ints, times, centre_places
     else:
         return ints, times
@@ -361,7 +368,7 @@ def average_ints(ints, times, angles, averaging_length):
     ints_reshaped = ints.reshape(-1, averaging_length, len(ints[0, :]))
     ints_mean = np.mean(ints_reshaped, axis=1)
     start_times = times[::averaging_length]
-    end_times = times[averaging_length - 1:: averaging_length]
+    end_times = times[averaging_length - 1 :: averaging_length]
     times = np.transpose(np.array((start_times, end_times)))
     # Check that we are not averaging over differnt angles
     angles_reshaped = np.transpose(angles.reshape(-1, averaging_length))
@@ -421,7 +428,10 @@ def load_response_function(filename):
                 CBB_times Times for start and end of CBB views
                 time      Midpoint time for response function calculation
     """
-    wn, resp = np.loadtxt(filename, unpack=True,)
+    wn, resp = np.loadtxt(
+        filename,
+        unpack=True,
+    )
     # Remove first line of resp function as
     # outside of area of sensitivity and usually nan
     wn, resp = wn[1:], resp[1:]
@@ -439,10 +449,14 @@ def load_response_function(filename):
                 break
     HBB_times_split = HBB_times_raw.split(" ")[1:]
     HBB_times = np.array(
-        (HBB_times_split[0], HBB_times_split[1][:-1]), dtype=np.float,)
+        (HBB_times_split[0], HBB_times_split[1][:-1]),
+        dtype=np.float,
+    )
     CBB_times_split = CBB_times_raw.split(" ")[1:]
     CBB_times = np.array(
-        (CBB_times_split[0], CBB_times_split[1][:-1]), dtype=np.float,)
+        (CBB_times_split[0], CBB_times_split[1][:-1]),
+        dtype=np.float,
+    )
     HBB_temps_split = HBB_temp_raw.split("+/-")
     HBB_temp = float(HBB_temps_split[0].split(" ")[1])
     HBB_std = float(HBB_temps_split[-1][:-1])
@@ -491,7 +505,10 @@ def load_spectrum_cycle(filename, info=True, info_only=False):
                     time        Midpoint time for scene view
     """
     if not info_only:
-        wn, rad, NESR, plus_cal, minus_cal = np.loadtxt(filename, unpack=True,)
+        wn, rad, NESR, plus_cal, minus_cal = np.loadtxt(
+            filename,
+            unpack=True,
+        )
     if not info:
         return wn, rad, NESR, plus_cal, minus_cal
     with open(filename, "r") as f:
@@ -513,17 +530,24 @@ def load_spectrum_cycle(filename, info=True, info_only=False):
     angle = float(angle_raw.split(" ")[-1][:-1])
     scene_times_split = scene_times_raw.split(" ")[1:]
     scene_times = np.array(
-        (scene_times_split[0], scene_times_split[1][:-1]), dtype=np.float,
+        (scene_times_split[0], scene_times_split[1][:-1]),
+        dtype=np.float,
     )
     HBB_times_split = HBB_times_raw.split(" ")[1:]
     HBB_times = np.array(
-        (HBB_times_split[0], HBB_times_split[1][:-1]), dtype=np.float,)
+        (HBB_times_split[0], HBB_times_split[1][:-1]),
+        dtype=np.float,
+    )
     HBB_times_split = HBB_times_raw.split(" ")[1:]
     HBB_times = np.array(
-        (HBB_times_split[0], HBB_times_split[1][:-1]), dtype=np.float,)
+        (HBB_times_split[0], HBB_times_split[1][:-1]),
+        dtype=np.float,
+    )
     CBB_times_split = CBB_times_raw.split(" ")[1:]
     CBB_times = np.array(
-        (CBB_times_split[0], CBB_times_split[1][:-1]), dtype=np.float,)
+        (CBB_times_split[0], CBB_times_split[1][:-1]),
+        dtype=np.float,
+    )
     HBB_temps_split = HBB_temp_raw.split("+/-")
     HBB_temp = float(HBB_temps_split[0].split(" ")[1])
     HBB_std = float(HBB_temps_split[-1][:-1])
@@ -577,7 +601,10 @@ def load_emissivity(filename, info=True, info_only=False):
                 from the average of PRT1 and PRT2 (C)
     """
     if not info_only:
-        wn, emis = np.loadtxt(filename, unpack=True,)
+        wn, emis = np.loadtxt(
+            filename,
+            unpack=True,
+        )
     if not info:
         return wn, emis
     with open(filename, "r") as f:
@@ -598,7 +625,8 @@ def load_emissivity(filename, info=True, info_only=False):
                 break
     scene_times_split = scene_times_raw.split(" ")
     scene_times = np.array(
-        (scene_times_split[-2], scene_times_split[-1][:-1]), dtype=np.float,
+        (scene_times_split[-2], scene_times_split[-1][:-1]),
+        dtype=np.float,
     )
     time = (scene_times[0] + scene_times[1]) / 2.0
     scene_view = int(scene_view_raw.split(":")[-1])
@@ -657,7 +685,10 @@ def load_emissivity_error(filename, info=True, info_only=False):
             "error_name": Name of the error that produced the change
     """
     if not info_only:
-        wn, emis_lower, emis_higher = np.loadtxt(filename, unpack=True,)
+        wn, emis_lower, emis_higher = np.loadtxt(
+            filename,
+            unpack=True,
+        )
     if not info:
         return wn, emis_lower, emis_higher
     with open(filename, "r") as f:
@@ -680,7 +711,8 @@ def load_emissivity_error(filename, info=True, info_only=False):
                 break
     scene_times_split = scene_times_raw.split(" ")
     scene_times = np.array(
-        (scene_times_split[-2], scene_times_split[-1][:-1]), dtype=np.float,
+        (scene_times_split[-2], scene_times_split[-1][:-1]),
+        dtype=np.float,
     )
     time = (scene_times[0] + scene_times[1]) / 2.0
     scene_view = int(scene_view_raw.split(":")[-1])
@@ -704,7 +736,7 @@ def load_emissivity_error(filename, info=True, info_only=False):
         "surface_std": surface_std,
         "surface_temp_guess": surface_guess,
         "error_value": error_value,
-        "error_name": error_name
+        "error_name": error_name,
     }
     if info_only:
         return params
@@ -728,7 +760,7 @@ def planck(wns, temp):
     k = 1.381e-23
     temp = temp + 273.15
 
-    planck_a = 2 * h * (c ** 2)
+    planck_a = 2 * h * (c**2)
     planck_e = h * c / k
     radiance = (
         100
@@ -774,20 +806,20 @@ def finesse_fft(interferogram, resolution, fre_interval, low_res_trunk=16384):
     # Check if any of the values are larger than the centre burst value
     # the extremes of the interferogram can contain very high values
     # that are rubbish
-    clean = np.all(interferogram ** 2 < mid_value * 1.1)
+    clean = np.all(interferogram**2 < mid_value * 1.1)
 
     # If the interferogram is not clean, remove values in lots of
     # 100 from the end untill it is
     while not clean:
         interferogram = interferogram[100:-100]
-        clean = np.all(interferogram ** 2 < mid_value * 1.1)
+        clean = np.all(interferogram**2 < mid_value * 1.1)
 
     # Find an estimate of the DC offset and remove from interferogram
     offset = np.mean(interferogram)
     interferogram = interferogram - offset
 
     # Find index of centre burst
-    centre_burst_index = np.argmax(interferogram ** 2)
+    centre_burst_index = np.argmax(interferogram**2)
 
     # Set number of samples for padded array
     padded_int = np.zeros(padded_samples)
@@ -799,7 +831,7 @@ def finesse_fft(interferogram, resolution, fre_interval, low_res_trunk=16384):
     # the zpd to +L of input interferogram
     padded_int[0:centre_burst_index] = interferogram[centre_burst_index:0:-1]
     int_to_copy = interferogram[:centre_burst_index:-1]
-    padded_int[-len(int_to_copy):] = int_to_copy
+    padded_int[-len(int_to_copy) :] = int_to_copy
 
     # Fourier transform the padded interferogram
     full_spe = fft(padded_int)
@@ -853,8 +885,7 @@ def correct_spectrum(complex_int, phase):
         array: phase angle interpolated onto spectrum
     """
     phase_interped = np.interp(
-        range(len(complex_int)), np.linspace(
-            0, len(complex_int), len(phase)), phase
+        range(len(complex_int)), np.linspace(0, len(complex_int), len(phase)), phase
     )
     corr_specr = -(
         (np.real(complex_int) * np.cos(phase_interped))
@@ -1003,16 +1034,16 @@ def calibrate_spectrum(
     rad_scene = (spectrum_scene[1, :] / resp) + L_HBB
 
     # Calculate NESR from imaginary part of corrected spectrum
-    print('Using old method to calculate NESR - see comment in code')
+    print("Using old method to calculate NESR - see comment in code")
     # NESR should be calculated by comparing consecutive spectra of the same scene (see Jon's paper)
     # This script is for a single spectra and so this cannot be easily done
-    # Instead write an additional function to calculate the residuals between consecutive spectra 
+    # Instead write an additional function to calculate the residuals between consecutive spectra
     # And fill nesr with nans
     rad_NESR = spectrum_scene[2, :] / resp
     rad_NESR = pd.DataFrame(rad_NESR, columns=["rad"])
     NESR = rad_NESR.rad.rolling(NESR_number).std()
 
-    NESR[:]=np.nan
+    NESR[:] = np.nan
 
     return wn, rad_scene, NESR
 
@@ -1434,7 +1465,7 @@ def apodise_spectrum(
         dum_spec = np.zeros_like(
             dum_spec
         )  # These can be set to produce a delta function to check the sinc
-        dum_spec[int(15000000 / 2): int(15000000 / 2) + 101] = 100.0
+        dum_spec[int(15000000 / 2) : int(15000000 / 2) + 101] = 100.0
     # *****************************************************************************
 
     # FFT the interpolated LBLRTM spectrum
@@ -1458,9 +1489,9 @@ def apodise_spectrum(
 
     # The following two lines reduce the output spectra to a sampling grid of 0.01 cm-1
     # while copying in the truncated interferogram from the high resolution interferogram
-    int_1[0: int(round((samples / 2)))] = int_2[0: int(round((samples / 2)))]
-    int_1[int(round((samples / 2))): samples] = int_2[
-        (dum_samples) - int(round((samples / 2))): dum_samples
+    int_1[0 : int(round((samples / 2)))] = int_2[0 : int(round((samples / 2)))]
+    int_1[int(round((samples / 2))) : samples] = int_2[
+        (dum_samples) - int(round((samples / 2))) : dum_samples
     ]
 
     if apodisation_func == "triangle":
@@ -1475,10 +1506,8 @@ def apodise_spectrum(
         triangle_right_x_all = np.arange(len(int_1) - Q - 1, len(int_1), 1)
         f_triangle_right = interp1d(triangle_right_x, triangle_right)
 
-        int_1[0: Q + 1] = int_1[0: Q + 1] * \
-            f_triangle_left(triangle_left_x_all)
-        int_1[-Q - 2: -1] = int_1[-Q - 2: -1] * \
-            f_triangle_right(triangle_right_x_all)
+        int_1[0 : Q + 1] = int_1[0 : Q + 1] * f_triangle_left(triangle_left_x_all)
+        int_1[-Q - 2 : -1] = int_1[-Q - 2 : -1] * f_triangle_right(triangle_right_x_all)
 
     elif not apodisation_func:
         print("Apodising with boxcar")
@@ -1565,7 +1594,7 @@ def planck_from_emissivity(emiss, wn, L_up, L_down, trans, T_a):
         (W / (m^{2} sr^{1} cm^{-1}))
     """
     B_atm = planck(wn, T_a)
-    T = L_up - trans ** 2 * L_down - (1 - trans ** 2) * B_atm
+    T = L_up - trans**2 * L_down - (1 - trans**2) * B_atm
     B_surface = T / (emiss * trans) + trans * L_down + (1 - trans) * B_atm
     return B_surface
 
@@ -1628,11 +1657,11 @@ def retrieve_surface_temperature(
                 wn_spectrum[i * n_step],
                 wn_spectrum[((i + 1) * n_step) - 1],
             )
-        wn_chunk = wn_spectrum[i * n_step: ((i + 1) * n_step) - 1]
+        wn_chunk = wn_spectrum[i * n_step : ((i + 1) * n_step) - 1]
         wns.append(np.average(wn_chunk))
-        L_up_chunk = L_up[i * n_step: ((i + 1) * n_step) - 1]
-        L_down_chunk = L_down[i * n_step: ((i + 1) * n_step) - 1]
-        trans_chunk = trans[i * n_step: ((i + 1) * n_step) - 1]
+        L_up_chunk = L_up[i * n_step : ((i + 1) * n_step) - 1]
+        L_down_chunk = L_down[i * n_step : ((i + 1) * n_step) - 1]
+        trans_chunk = trans[i * n_step : ((i + 1) * n_step) - 1]
         p_minimised = minimize_scalar(
             surface_temp_to_minimise,
             args=(wn_chunk, L_up_chunk, L_down_chunk, trans_chunk, T_a),
@@ -1650,20 +1679,26 @@ def retrieve_surface_temperature(
             ax1.plot(wn_chunk, B_surface)
         surf_temp = curve_fit(planck, wn_chunk, B_surface, p0=[T_a])
         if verbose:
-            print("Surface temperature: %.6f +/- %.6f" %
-                  (surf_temp[0], surf_temp[1]))
+            print("Surface temperature: %.6f +/- %.6f" % (surf_temp[0], surf_temp[1]))
         emissivity.append(e_chunk)
         temperature.append(surf_temp[0])
     return wns, emissivity, temperature
 
 
 def retrieve_temp_jon(
-    wn, L_up, L_down, trans, T_a,
-    T_bounds, wn_bounds, wn_step_size=40, verbose=False,
-    step_size=0.1
+    wn,
+    L_up,
+    L_down,
+    trans,
+    T_a,
+    T_bounds,
+    wn_bounds,
+    wn_step_size=40,
+    verbose=False,
+    step_size=0.1,
 ):
     """
-    Jointly retrieve emissivity and surface temperature from up and 
+    Jointly retrieve emissivity and surface temperature from up and
     downwelling radiation, atmospheric temperature and atmospheric
     transmission.
     This calculation assumes the atmosphere has a constant
@@ -1749,19 +1784,14 @@ def retrieve_temp_jon(
         #         wn[i * n_step],
         #         wn[((i + 1) * n_step) - 1],
         #     )
-        wn_chunk = wn[i * n_step: ((i + 1) * n_step) - 1]
+        wn_chunk = wn[i * n_step : ((i + 1) * n_step) - 1]
         wns.append(np.average(wn_chunk))
-        L_up_chunk = L_up[i * n_step: ((i + 1) * n_step) - 1]
-        L_down_chunk = L_down[i * n_step: ((i + 1) * n_step) - 1]
-        trans_chunk = trans[i * n_step: ((i + 1) * n_step) - 1]
+        L_up_chunk = L_up[i * n_step : ((i + 1) * n_step) - 1]
+        L_down_chunk = L_down[i * n_step : ((i + 1) * n_step) - 1]
+        trans_chunk = trans[i * n_step : ((i + 1) * n_step) - 1]
         for j, temp in enumerate(temps):
             emis_temp = calculate_emissivity_constant_atm(
-                wn_chunk,
-                L_up_chunk,
-                L_down_chunk,
-                trans_chunk,
-                T_a,
-                temp
+                wn_chunk, L_up_chunk, L_down_chunk, trans_chunk, T_a, temp
             )
             std_temp = np.std(emis_temp)
             std_chunk.append(std_temp)
@@ -1785,8 +1815,7 @@ def surface_retrieval_equation(p, wn, L_up, L_down, trans, T_a):
 
 
 def surface_temp_to_minimise(p, wn, L_up, L_down, trans, T_a):
-    guess_of_function = surface_retrieval_equation(
-        p, wn, L_up, L_down, trans, T_a)
+    guess_of_function = surface_retrieval_equation(p, wn, L_up, L_down, trans, T_a)
     quadratic_fit = np.polyfit(wn, guess_of_function, 2)
     quadratic_function = np.poly1d(quadratic_fit)
     quadratic = quadratic_function(wn)
@@ -1809,18 +1838,16 @@ def fresnel_jon(n, k, theta):
         float or array: Perpendicular reflectance
     """
     a2 = (
-        n ** 2
-        - k ** 2
+        n**2
+        - k**2
         - np.sin(theta) ** 2
-        + np.sqrt((n ** 2 - k ** 2 - np.sin(theta) ** 2)
-                  ** 2 + 4 * n ** 2 * k ** 2)
+        + np.sqrt((n**2 - k**2 - np.sin(theta) ** 2) ** 2 + 4 * n**2 * k**2)
     ) / 2
     b2 = (
-        k ** 2
-        - n ** 2
+        k**2
+        - n**2
         + np.sin(theta) ** 2
-        + np.sqrt((n ** 2 - k ** 2 - np.sin(theta) ** 2)
-                  ** 2 + 4 * n ** 2 * k ** 2)
+        + np.sqrt((n**2 - k**2 - np.sin(theta) ** 2) ** 2 + 4 * n**2 * k**2)
     ) / 2
 
     # Perpendicular
@@ -1858,25 +1885,24 @@ def zg_to_z(zg, approx=True):
 
     Returns:
         float or array: height (m)
-    """      
+    """
     Re = 6371e3  # in m
-    zg = zg/9.80665
+    zg = zg / 9.80665
     if approx:
-        bracket = (1 - (2*zg)/Re)
+        bracket = 1 - (2 * zg) / Re
         z = zg / bracket
     else:
         print("This is not written yet")
         z = None
-    return z/1000
+    return z / 1000
 
 
-def apply_ILS_sav(ILS, start_fre, end_fre, wn,
-                  spectrum, pad_length=10):
+def apply_ILS_sav(ILS, start_fre, end_fre, wn, spectrum, pad_length=10):
     """Apply ILS to a spectrum
 
     Args:
         ILS (array (ILS, frequency bin)): ILS axis 0 is the
-            ILS axis 1 is the frequency bin as defined by 
+            ILS axis 1 is the frequency bin as defined by
             start_fre, end_fre
         start_fre (array): Start frequency for wn bin (cm-1)
         end_fre (array): end frequency for wn bin (cm-1)
@@ -1887,9 +1913,7 @@ def apply_ILS_sav(ILS, start_fre, end_fre, wn,
             wavenumber
     """
     # Specify frequency scale of ILS
-    ILS_frequency_scale = np.linspace(
-        -5, 5, np.shape(ILS)[0]
-    )
+    ILS_frequency_scale = np.linspace(-5, 5, np.shape(ILS)[0])
 
     # Loop through each chunk of spectrum and apply the ILS
     # to that chunk
@@ -1903,24 +1927,16 @@ def apply_ILS_sav(ILS, start_fre, end_fre, wn,
         # Add extra for convolution overlap
         index = np.where(
             np.logical_and(
-                wn >= start_fre[i] -
-                pad_length,
-                wn <= end_fre[i] +
-                pad_length,
+                wn >= start_fre[i] - pad_length,
+                wn <= end_fre[i] + pad_length,
             )
         )
         wn_now = wn[index]
         spectrum_now = spectrum[index]
         # Interpolate ILS onto frequency of signal
-        ILS_frequency_scale_interp = np.arange(
-            -5,
-            5,
-            np.average(np.diff(wn_now))
-        )
+        ILS_frequency_scale_interp = np.arange(-5, 5, np.average(np.diff(wn_now)))
         ils_now_interp = np.interp(
-            ILS_frequency_scale_interp,
-            ILS_frequency_scale,
-            ILS[:, i]
+            ILS_frequency_scale_interp, ILS_frequency_scale, ILS[:, i]
         )
         spectrum_interp = np.convolve(
             spectrum_now,
@@ -1964,7 +1980,7 @@ def wl_to_wn(wl):
         float or array: wavenumber (cm-1)
     """
     wl_cm = wl * 1e-4
-    wn = 1/wl_cm
+    wn = 1 / wl_cm
     return wn
 
 
@@ -1978,11 +1994,11 @@ def wn_to_wl(wn):
     Returns:
         float or array: wavelength (micrometers)
     """
-    wl=10000 / wn
+    wl = 10000 / wn
     return wl
 
 
-def rad_to_bt(v_list , B_in):
+def rad_to_bt(v_list, B_in):
     """Convert from radiance to BT. From Sanjee
 
     Args:
@@ -1992,12 +2008,11 @@ def rad_to_bt(v_list , B_in):
     Returns:
         array: Brightness temperature (K)
     """
-    B_list = B_in*1000
-    c1=1.191044E-5
+    B_list = B_in * 1000
+    c1 = 1.191044e-5
     c2 = 1.438769
-    T = c2*v_list / np.log(c1*v_list**3/B_list +1)
+    T = c2 * v_list / np.log(c1 * v_list**3 / B_list + 1)
     return T
-
 
 
 def threshold_plot(ax, x, y, threshv, color, overcolor):
@@ -2041,7 +2056,7 @@ def threshold_plot(ax, x, y, threshv, color, overcolor):
 
     ax.add_collection(lc)
     ax.set_xlim(np.min(x), np.max(x))
-    ax.set_ylim(np.min(y)*1.1, np.max(y)*1.1)
+    ax.set_ylim(np.min(y) * 1.1, np.max(y) * 1.1)
     return lc
 
 
@@ -2056,7 +2071,7 @@ def _newman_equation(index, coefficient, T):
     Returns:
         _type_: _description_
     """
-    return index + coefficient*T
+    return index + coefficient * T
 
 
 def newman_temp(angle, T, wn, n_0, k_0, c_n, c_k):
@@ -2096,9 +2111,7 @@ def quad_add(x, y):
     return np.sqrt(x**2 + y**2)
 
 
-def load_transmission_min_max(
-    filename_header, version=None
-):
+def load_transmission_min_max(filename_header, version=None):
     """Load transmission and header files created using
        5_calculate_transmission.py and TAPE12 files extracted using IDL
 
@@ -2146,7 +2159,7 @@ def load_transmission_min_max(
     sky = int(sky_raw.split(":")[-1])
     times = times_raw.split(" ")
     path_temp = path_raw.split("+")
-    path = float(path_temp[0][:-3]) 
+    path = float(path_temp[0][:-3])
     path_error = float(path_temp[-1])
     pressure_raw = pressure_raw.split(" ")
     pres = float(pressure_raw[1][:-1])
@@ -2194,24 +2207,22 @@ def load_transmission_min_max(
         "time": time,
     }
     wn_min, trans_min = np.loadtxt(
-        folder + f"{version}/{file_number}_min.txt",
-        unpack=True
+        folder + f"{version}/{file_number}_min.txt", unpack=True
     )
     wn_max, trans_max = np.loadtxt(
-        folder + f"{version}/{file_number}_max.txt",
-        unpack=True
+        folder + f"{version}/{file_number}_max.txt", unpack=True
     )
     return wn_min, trans_min, wn_max, trans_max, data
 
 
 def average_ints_in_folder(FOLDER, len_int=0, return_n=True, centre_place=False):
-    """Load all interferograms from a foder created by the Opus software 
+    """Load all interferograms from a foder created by the Opus software
     and return the averaged interferogram and the start and end times of the
     interferogram
 
     Args:
         FOLDER (string): location of folder
-        len_int (int, optional): length of the interferogram, if 0 then the 
+        len_int (int, optional): length of the interferogram, if 0 then the
         length of the first interferogram is taken. Defaults to 0.
         return_n (bool, optional): Return the number of interferograms
          in the folder. Defaults to True.
@@ -2233,17 +2244,22 @@ def average_ints_in_folder(FOLDER, len_int=0, return_n=True, centre_place=False)
         centre_point = np.argmax(data[10000:-10000])
         centre_places.append(centre_point)
         if i == 0:
-            if len_int==0:
+            if len_int == 0:
                 ints = np.empty((len(ints_names), len(data)))
             else:
                 ints = np.empty((len(ints_names), len_int))
-        if len_int==0:
+        if len_int == 0:
             ints[i, :] = data
         else:
             ints[i, :] = data[0:len_int]
     times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
     time_strings = np.loadtxt(
-        times_name, dtype="str", delimiter="\t", skiprows=2, usecols=[1], unpack=True,
+        times_name,
+        dtype="str",
+        delimiter="\t",
+        skiprows=2,
+        usecols=[1],
+        unpack=True,
     )
     times = []
     for time in time_strings:
@@ -2263,7 +2279,7 @@ def average_ints_in_folder(FOLDER, len_int=0, return_n=True, centre_place=False)
         return average_int, start_end, centre_places
     else:
         return average_int, start_end
-    
+
 
 def calibrate_fixed_response_function(
     int_scene,
@@ -2326,17 +2342,17 @@ def create_single_wn_wl_plot(
     figure,
     wn,
     data,
-    title='',
-    xlab=r'Wavenumber (cm$^{-1}$)',
-    xlab2=r'Wavelength ($\mu$m)',
-    ylab='',
+    title="",
+    xlab=r"Wavenumber (cm$^{-1}$)",
+    xlab2=r"Wavelength ($\mu$m)",
+    ylab="",
     xlim=None,
     ylim=None,
     line_width=1,
     alpha=1,
-    color='k',
+    color="k",
     show_grid=True,
-    ):
+):
     """Plot a graph with a lower x-axis in cm-1 and an upper x-axis
     in micrometers
 
@@ -2348,7 +2364,7 @@ def create_single_wn_wl_plot(
         xlab (str, optional): Lower x label of plot. Defaults to r'Wavenumber (cm$^{-1}$)'.
         xlab2 (str, optional): Upper x label of plot. Defaults to r'Wavelength ($\mu)'.
         ylab (str, optional): Y label of plot. Defaults to ''.
-        xlim (tuple (a, b), optional): x lims for plot. If None this is 
+        xlim (tuple (a, b), optional): x lims for plot. If None this is
         set automatically. Defaults to None.
         ylim (tuple(a, b), optional): y lims for plot. If None this is
         set automatically. Defaults to None.
@@ -2356,14 +2372,13 @@ def create_single_wn_wl_plot(
         alpha (int, optional): Alpha for plot. Defaults to 1.
         color (str, optional): Color for plot line. Defaults to 'k'.
         show_grid (bool, optional): Show grid for plot. Defaults to True.
-    
+
     Returns:
         fig: Figure
     """
-    ax1 = figure.add_subplot(1,1,1) # here is where you add the subplot to f
+    ax1 = figure.add_subplot(1, 1, 1)  # here is where you add the subplot to f
     ax2 = ax1.secondary_xaxis("top", functions=(wn_to_wl, wl_to_wn))
-    plt.plot(wn, data, linewidth=line_width,
-               alpha=alpha, color=color)
+    plt.plot(wn, data, linewidth=line_width, alpha=alpha, color=color)
     ax1.set_xlabel(xlab)
     ax2.set_xlabel(xlab2)
     ax1.set_ylabel(ylab)
@@ -2376,16 +2391,16 @@ def create_single_wn_wl_plot(
     return figure
 
 
-
-
-def average_ints_in_folder_return_individuals(FOLDER, len_int=0, return_n=True, centre_place=False):
-    """Load all interferograms from a foder created by the Opus software 
+def average_ints_in_folder_return_individuals(
+    FOLDER, len_int=0, return_n=True, centre_place=False
+):
+    """Load all interferograms from a foder created by the Opus software
     and return the averaged interferogram and the start and end times of the
     interferogram
 
     Args:
         FOLDER (string): location of folder
-        len_int (int, optional): length of the interferogram, if 0 then the 
+        len_int (int, optional): length of the interferogram, if 0 then the
         length of the first interferogram is taken. Defaults to 0.
         return_n (bool, optional): Return the number of interferograms
          in the folder. Defaults to True.
@@ -2417,7 +2432,12 @@ def average_ints_in_folder_return_individuals(FOLDER, len_int=0, return_n=True, 
             ints[i, :] = data[0:len_int]
     times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
     time_strings = np.loadtxt(
-        times_name, dtype="str", delimiter="\t", skiprows=2, usecols=[1], unpack=True,
+        times_name,
+        dtype="str",
+        delimiter="\t",
+        skiprows=2,
+        usecols=[1],
+        unpack=True,
     )
     times = []
     for time in time_strings:
@@ -2448,16 +2468,16 @@ More helper functions for spectrum calibration
 
 def load_single_int(filename):
     """Load single interferogram produced using
-        2_prepare_interferogram.py; adapted from load_average_int
+    2_prepare_interferogram.py; adapted from load_average_int
 
-        Args:
-            filename (string): Location of interferogram file
+    Args:
+        filename (string): Location of interferogram file
 
-        Returns:
-            array: interferogram
-            array: start time of interfergram (appears twice in the list for consistency with other methods)
-            float: mirror angle for interferogram
-        """
+    Returns:
+        array: interferogram
+        array: start time of interfergram (appears twice in the list for consistency with other methods)
+        float: mirror angle for interferogram
+    """
     interferogram = np.loadtxt(filename)
     with open(filename, "r") as f:
         for i, line in enumerate(f):
@@ -2491,7 +2511,9 @@ def calculate_nesr_from_bb(bb_ints):
     average_rad = np.zeros(len(rads_to_average[0]))  # initialise list for averages
     for rads in rads_to_average:
         for j, rad in enumerate(rads):
-            average_rad[j] += rad / len(rads_to_average)  # contribute to the average list
+            average_rad[j] += rad / len(
+                rads_to_average
+            )  # contribute to the average list
     # find difference of radiance at each wavenumber between first interferogram and average interferogram
     nesr = []
     for i in range(len(separated_rad)):
@@ -2524,9 +2546,13 @@ def calculate_nesr(wns, rads):
     first_wavenumber = 400
     last_wavenumber = 1605
     indices = []
-    for i, wn in enumerate(wns[0]):  # all the wavenumbers for every scan should be the same
+    for i, wn in enumerate(
+        wns[0]
+    ):  # all the wavenumbers for every scan should be the same
         if first_wavenumber < wn < last_wavenumber:
-            indices.append([i, i + 100])        # wavenumber increases by 5 cm^-1 after 100 steps
+            indices.append(
+                [i, i + 100]
+            )  # wavenumber increases by 5 cm^-1 after 100 steps
 
     # get RMS for the radiances inside the bands
     nesr_values = []
@@ -2539,7 +2565,9 @@ def calculate_nesr(wns, rads):
             # get RMS of radiance differences in this wavenumber range for this scan
             relevant_square_rad_differences = []
             for rad_difference in rad_difference_list[start_index:end_index]:
-                relevant_square_rad_differences.append(rad_difference ** 2)     # square the difference to get RMS later
+                relevant_square_rad_differences.append(
+                    rad_difference**2
+                )  # square the difference to get RMS later
             # take mean and square root to get RMS
             rms_for_each_scan.append(np.sqrt(np.mean(relevant_square_rad_differences)))
         # take mean of RMS for each scan, then take square root to get NESR
@@ -2551,7 +2579,7 @@ def calculate_nesr(wns, rads):
     nesr = []
     for i in range(len(wns[0])):
         if indices[0][0] <= i <= indices[-1][0]:
-            nesr.append(nesr_values[i-indices[0][0]][1])
+            nesr.append(nesr_values[i - indices[0][0]][1])
         else:
             nesr.append(np.nan)
 
