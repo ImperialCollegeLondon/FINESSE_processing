@@ -15,9 +15,11 @@ GUI_DATA_LOCATION = DATA_LOCATION + "clear_sky1-20230220103722.log"
 PTH_DATA_LOCATION = DATA_LOCATION + "PTH_all.txt"
 CO2_DATA_LOCATION = DATA_LOCATION + "CO2_all.txt"
 
+# Change paths to where you will save your outputs
 PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
 SAVE_LOACTION = PATH2+f"Processed_Data_soph_single/{DATE}/"
 
+# This all needs to be changed for different campagins
 if DATE == "20230217":
     time_lims = [20000, 48000]  # 20230217
 elif DATE == "20230220":
@@ -31,7 +33,12 @@ print("DATA LOCTAION HERE:", PTH_DATA_LOCATION)
 pth_time, pth_pressure, pth_temp, pth_humidity = cal.load_pth(
     PTH_DATA_LOCATION)
 
+"""
 
+All code below is for PLOTTING the HBB, CBB, PRT sensors,
+PTH and CO2 
+
+"""
 cal.update_figure(5, [8, 7])
 axes_labels = ["(a)", "(b)", "(c)", "(d)"]
 label_location = (0.05, 0.95)
