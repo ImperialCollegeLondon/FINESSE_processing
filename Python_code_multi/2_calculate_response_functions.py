@@ -29,6 +29,59 @@ Path(RESPONSE_FUNCTION_LOCATION).mkdir(parents=True, exist_ok=True)
 
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
+"ADDING in averaging of individuals here"
+INDIVIDUAL_SAVE_LOCATION = PATH2+f"Processed_Data_soph_single/prepared_individual_ints/"
+RUN_NAME = "zenith_test1"
+single_INT_LOCATION = "/disk1/sm4219/GIT/FINESSE_CAL/Processed_Data_soph_single/prepared_individual_ints/"
+FOLDERS = glob.glob(single_INT_LOCATION + "*" + RUN_NAME + "/")
+FOLDERS.sort()
+print("Folders", FOLDERS)
+
+FOLDERS_EXAMINING=FOLDERS[0:1]
+AVERAGING_LENGTH = 40
+
+ints: list = []
+times: list = []
+n: list = []
+centre_place: list = []
+
+for FOLDER in FOLDERS_EXAMINING:
+    int_temp, start_end_temp, n_temp, centre_place_temp = cal.average_ints_in_folder(
+        FOLDER,
+        len_int=57090,
+        return_n=True,
+        centre_place=True
+    )
+    ints.append(int_temp)
+    times.append(start_end_temp)
+    n.append(n_temp)
+    centre_place.append(centre_place_temp)
+
+angles = []
+for time in times:
+    angle, angle_std = cal.colocate_time_range_gui(gui_data, time, "angle")
+    angles.append(angle)
+print(angles)
+
+cal.update_figure(1)
+for i, interferogram in enumerate(ints):
+    header = (
+        "Averaged interferogram %i of %i\n" % (i + 1, len(ints))
+        + "Start and end times (seconds since midnight)\n"
+        + "%.1f %.1f\n" % (times[i][0], times[i][1])
+        + "Mirror angle\n%.1f\n" % angles[i]
+    )
+    print(header)
+    np.savetxt(
+        AVERAGED_SAVE_LOCATION + "int_%.0f.txt" % times[i][0],
+        interferogram,
+        header=header,
+    )
+
+AVERAGED_INT_LOCATION = DATA_LOCATION \
+    + "prepared_ints/"
+
+
 # Find all averaged interferogram files
 int_list = glob(AVERAGED_INT_LOCATION + "*.txt")
 int_list.sort()

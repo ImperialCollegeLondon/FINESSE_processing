@@ -36,7 +36,7 @@ centre_place: list = []
 run = 0
 
 for FOLDER in FOLDERS:
-    print("HERE is folder:", FOLDER)
+    # print("HERE is folder:", FOLDER)
     times: list = []
     Path(INDIVIDUAL_SAVE_LOCATION + FOLDER[len(INT_LOCATION) :]).mkdir(
         parents=True, exist_ok=True
