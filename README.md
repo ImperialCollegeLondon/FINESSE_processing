@@ -20,7 +20,7 @@
 
 ## Documentation
 
-This is for the FINESSE instrument at Imperial. It is processing code that includes calibration and plotting. This is only python code, there is also an IDL version. Run the code within the Python multi folder. 
+This is for the FINESSE instrument at Imperial. It is processing code that includes calibration and plotting. This is only python code, there is also an IDL version. Run the code within the Python multi folder.
 
 Here is a description of what each of the script files currently does:
 
@@ -37,12 +37,6 @@ Here is a description of what each of the script files currently does:
 
 - For checking the final calibration spectra output
 - Features to add: Time evolution plots
-
-
-
-
-
-
 
 ## How to use finesse_processing
 
@@ -97,7 +91,6 @@ pre-commit install
 Now, whenever you make a Git commit, your changes will be checked for errors and stylistic problems. (For a list of the hooks enabled for this repository, [see the configuration file](./.pre-commit-config.yaml)).
 
 The `pre-commit` hooks will also be run on every pull request by [pre-commit.ci](https://pre-commit.ci).
-
 
 # `src` folder
 
