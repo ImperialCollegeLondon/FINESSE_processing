@@ -1,4 +1,6 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ImperialCollegeLondon/FINESSE_processing/main.svg)](https://results.pre-commit.ci/latest/github/ImperialCollegeLondon/FINESSE_processing/main)
+[![codecov](https://codecov.io/gh/ImperialCollegeLondon/FINESSE_processing/graph/badge.svg?token=DTS433S9E2)](https://codecov.io/gh/ImperialCollegeLondon/FINESSE_processing)
+[![CI](https://github.com/ImperialCollegeLondon/FINESSE_processing/actions/workflows/ci.yml/badge.svg)](https://github.com/ImperialCollegeLondon/FINESSE_processing/actions/workflows/ci.yml)
 
 ## Badges
 
@@ -15,6 +17,26 @@
 | **Other best practices**           | &nbsp; |
 | **GitHub Actions**                 | &nbsp; |
 | Build                              | [![build](https://github.com/ImperialCollegeLondon/finesse_processing/actions/workflows/build.yml/badge.svg)](https://github.com/ImperialCollegeLondon/finesse_processing/actions/workflows/build.yml) |
+
+## Documentation
+
+This is for the FINESSE instrument at Imperial. It is processing code that includes calibration and plotting. This is only python code, there is also an IDL version. Run the code within the Python multi folder.
+
+Here is a description of what each of the script files currently does:
+
+- **File 0**  is just reading the sensors to track BB temperatures, PRT sensors and vaisala instrument pressure temperature humidity + co2
+
+- **File 1**  is preparing the interferograms for single or multi (averaged 40)
+
+- **File 2** is calculating the response functions (always done in multi case)
+
+- **File 3a single** is doing calibration for single case [NOTE THIS CODE IS NOT FINISHED]
+- **File 3b multi**  is doing calibration for multi case
+
+**Quick plot file:**
+
+- For checking the final calibration spectra output
+- Features to add: Time evolution plots
 
 ## How to use finesse_processing
 
@@ -69,31 +91,6 @@ pre-commit install
 Now, whenever you make a Git commit, your changes will be checked for errors and stylistic problems. (For a list of the hooks enabled for this repository, [see the configuration file](./.pre-commit-config.yaml)).
 
 The `pre-commit` hooks will also be run on every pull request by [pre-commit.ci](https://pre-commit.ci).
-
-## Documentation
-
-This is for the FINESSE instrument at Imperial. It is processing code that includes calibration and plotting. This is only python code, there is also an IDL version.
-
-## Python code multi
-
-This folder contains various scripts which are going to be sorted in a functions file and then scripts for running. At the moment there are about 5 scripts, we aim to get it into 2 or 3.
-The details of how these scripts are going to be sorted are in the projects workflow thingy/issues!
-
-Here is a description of what each of the files currently does:
-
-- **File 0**  is just reading the sensors to track BB temperatures, PRT sensors and vaisala instrument pressure temperature humidity + co2
-
-- **File 1**  is preparing the interferograms for single or multi (averaged 40)
-
-- **File 2** is calculating the response functions (always done in multi case)
-
-- **File 3a single** is doing calibration for multi case [NOTE THIS CODE IS NOT FINISHED]
-- **File 3b multi**  is doing calibration for single case
-
-**Quick plot file:**
-
-- For checking the final calibration spectra output
-- Features to add: Time evolution plots
 
 # `src` folder
 
