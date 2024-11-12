@@ -24,14 +24,14 @@ This is for the FINESSE instrument at Imperial. It is processing code that inclu
 
 Here is a description of what each of the script files currently does:
 
-- **File 0**  is just reading the sensors to track BB temperatures, PRT sensors and vaisala instrument pressure temperutre humidity + co2
+- **File 0**  is just reading the sensors to track BB temperatures, PRT sensors and vaisala instrument pressure temperature humidity + co2
 
 - **File 1**  is preparing the interferograms for single or multi (averaged 40)
 
 - **File 2** is calculating the response functions (always done in multi case)
 
 - **File 3a single** is doing calibration for single case [NOTE THIS CODE IS NOT FINISHED]
-- **File 3b mulit**  is doing calibration for multi case
+- **File 3b multi**  is doing calibration for multi case
 
 **Quick plot file:**
 
@@ -77,7 +77,7 @@ Next you will want to install the dependencies for `FINESSE_processing` along wi
 You can do this like so:
 
 ```sh
-pip install -e .[dev]
+pip install -e .[dev,scripts]
 ```
 
 ### Install `pre-commit`
