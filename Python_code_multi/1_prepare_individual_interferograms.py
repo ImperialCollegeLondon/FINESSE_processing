@@ -12,19 +12,19 @@ import numpy as np
 import calibration_functions_sanjee as cal
 
 DATE = "20230220"
-PATH = "/disk1/Andoya/sp1016/"
-INT_LOCATION = PATH + f"Raw_Data/{DATE}/"
+PATH = "/disk1/sm4219/WHAFFERS/"
+INT_LOCATION = PATH + "/01_22_13_raw_finesse_test/"
 # RUN NAME is the string at the end of the folder
-RUN_NAME = "zenith_test1"
-GUI_DATA_LOCATION = INT_LOCATION + "clear_sky1-20230220103722.log"
+RUN_NAME = "Measurement"
+GUI_DATA_LOCATION = "/disk1/sm4219/WHAFFERS/01_22_13_raw_finesse_test/Vaisala_and_logs/20250122_logfile.txt"
 
-PATH2 = "/disk1/sm4219/GIT/FINESSE_CAL/"
+
 # The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
 INDIVIDUAL_SAVE_LOCATION = (
-    PATH2 + f"Processed_Data_soph_single/prepared_individual_ints/"
+    PATH + f"/Processed_Data_test/prepared_individual_ints/"
 )
 Path(INDIVIDUAL_SAVE_LOCATION).mkdir(parents=True, exist_ok=True)
-SAVE_LOACTION = PATH2 + f"Processed_Data_soph_single/"
+# SAVE_LOACTION = PATH2 + f"Processed_Data_soph_single/"
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
 FOLDERS = glob(INT_LOCATION + "*" + RUN_NAME + "/")
@@ -44,7 +44,7 @@ for FOLDER in FOLDERS:
 
     int_temp, start_end_temp, n_temp, centre_place_temp = (
         cal.average_ints_in_folder_return_individuals(
-            FOLDER, len_int=57090, return_n=True, centre_place=True
+            FOLDER, len_int=228036, return_n=True, centre_place=True
         )
     )
     ints = int_temp
@@ -85,7 +85,7 @@ for FOLDER in FOLDERS:
         ax1.set(
             title=f"Start time: {times[i]:.0f} Angle: {angles}",
             ylim=(-0.15, 0.15),
-            xlim=(20000, 37000),
+            # xlim=(20000, 37000),
         )
         fig1.savefig(
             INDIVIDUAL_SAVE_LOCATION

@@ -5,6 +5,7 @@ n.b. at the moment this assumes an OPD of 1.8cm
 and a boxcar apodisation function
 
 THIS CODE is for the multi case and is working
+There is a check on if the centrebursts are in the same place or not, will print statemnet if not
 
 """
 
@@ -24,7 +25,7 @@ GUI_DATA_LOCATION = "/disk1/sm4219/WHAFFERS/01_22_13_raw_finesse_test/Vaisala_an
 
 DATA_LOCATION = PATH + f"/Processed_Data_test/{DATE}/"
 # DATA_LOCATION = PATH+f"Processed_Data_FOR_SOPHIE/{DATE}/"
-AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints/"
+AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints_new/"
 
 RESPONSE_FUNCTION_LOCATION = DATA_LOCATION + "response_functions/"
 Path(RESPONSE_FUNCTION_LOCATION).mkdir(parents=True, exist_ok=True)
@@ -34,6 +35,7 @@ gui_data = cal.load_gui(GUI_DATA_LOCATION)
 # Find all averaged interferogram files
 int_list = glob(AVERAGED_INT_LOCATION + "*.txt")
 int_list.sort()
+
 
 # Load interferograms and get HBB and CBB temps
 ints = []
@@ -115,6 +117,12 @@ for i, index in enumerate(cal_locations):
     )
     print(header)
     data = np.column_stack((wn, resp_temp_unapp))
+
+    centre_HBB = np.argmax(int_HBB) 
+    centre_CBB = np.argmax(int_HBB)
+    if centre_HBB - centre_CBB != 0:
+        print("Difference between HBB and CBB centrebursts")
+
     np.savetxt(
         RESPONSE_FUNCTION_LOCATION + "%i.txt" % HBB_times[0], data, header=header
     )

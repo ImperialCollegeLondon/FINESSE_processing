@@ -2586,6 +2586,7 @@ def calculate_nesr(wns, rads):
 
     return nesr
 
+
 def chop_int(FOLDER, len_int, n_chop):
     """
     We chop ints into 4 ints
@@ -2596,7 +2597,7 @@ def chop_int(FOLDER, len_int, n_chop):
     output_em = np.empty((n_chop, len_int))
     ints_names = glob(FOLDER + "/*.0")
     ints_names.sort()
-    
+    warning_printed = False
     for i, name in enumerate(ints_names):
         data = np.fromfile(name, np.float32)
         output_em[0, :] = data[0:len_int]
@@ -2609,11 +2610,12 @@ def chop_int(FOLDER, len_int, n_chop):
         # plt.ylim(-1,1)
         # plt.show()
         differ = len(data[3*len_int:]) - (len_int)
-        print(differ)
+        # print(differ)
         if abs(differ) > (0.1 * len_int):
             raise RuntimeError("Cutting lengths are wrong") 
-        elif differ > 0:
+        elif differ > 0 and not warning_printed:
             print("Cutting length is going to cut some data")
+            warning_printed = True
         elif differ < 0:
             data = np.append(data, [100] * abs(differ))
         output_em[3, :] = data[3*len_int:(4*len_int)]
@@ -2657,12 +2659,7 @@ def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=Fa
             else:
                 ints = np.empty((len(ints_names) * n_chop, len_int)) 
 
-        if len_int == 0:
-            ints[i*n_chop:(i+1)*n_chop, :] = chopped_data
-        else:
-            ints[i*n_chop:(i+1)*n_chop, :] = chopped_data[0:len_int*4]
-        "STUCK HERE"
-
+        ints[i*n_chop:(i+1)*n_chop, :] = chopped_data
 
     times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
     time_strings = np.loadtxt(
@@ -2695,3 +2692,17 @@ def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=Fa
         return average_int, start_end, centre_places
     else:
         return average_int, start_end
+
+def find_time(FOLDER):
+    times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
+    time_strings = np.loadtxt(
+        times_name,
+        dtype="str",
+        delimiter="\t",
+        skiprows=2,
+        usecols=[1],
+        unpack=True,
+    )
+    times = [string_to_seconds_bruker(time) for time in time_strings]
+    start_end = (min(times), max(times))
+    return start_end

@@ -22,7 +22,7 @@ INDIVIDUAL_SAVE_LOCATION = (
 )
 
 SPECTRUM_LOCATION = DATA_LOCATION + "calibrated_spectra/"
-AVERAGED_SAVE_LOCATION = PATH + f"/Processed_Data_test/{DATE}/prepared_ints/"
+AVERAGED_SAVE_LOCATION = PATH + f"/Processed_Data_test/{DATE}/prepared_ints_new/"
 Path(SPECTRUM_LOCATION).mkdir(parents=True, exist_ok=True)
 OPD = 1.21
 OUTPUT_FREQUENCY = 0.0605 / OPD
@@ -32,9 +32,32 @@ STRETCH_FACTOR = 1.00016
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
 # Find all averaged interferogram files
+"Averaged only contains HBB + CBB"
 int_list = glob(AVERAGED_INT_LOCATION + "*.txt")
 int_list.sort()
 
+"This will contain all"
+FOLDERS = glob(INT_LOCATION + "*" + RUN_NAME + "/")
+FOLDERS.sort()
+
+for FOLDER in FOLDERS:
+        int_2d = cal.chop_int(FOLDER, len_int=(57090-178), n_chop=4)
+
+"""
+PHASE SHIFT
+  FOR sh=22,24 DO BEGIN
+  dum(100L-sh:57000L-sh) = dum_hot(100L-sh:57000L-sh)-allints(view_180(view_count180),sp,100L:57000L)
+
+QUALITY CHECK
+Using a 0.01 threshold on the standard deviation in the 600 to 650 cm-1
+If none of the three meet this criteria do not store the associated single spectra
+
+      dum(0:250)=spe_phase(ind,cycle,sp,index(0):index(1))
+      dum1=moment(dum)
+      std(ind,cycle,sp)=sqrt(dum1(1))
+"""
+
+"Below works on certain script file as based on indexing"
 # Load interferograms and get HBB and CBB temps
 ints = []
 HBB_temps = []
