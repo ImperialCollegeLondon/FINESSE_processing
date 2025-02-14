@@ -16,15 +16,17 @@ import calibration_functions_sanjee as cal
 from math import floor
 
 DATE = "20230220"
-PATH = "/disk1/Andoya/sp1016/"
+PATH = "/disk1/sm4219/WHAFFERS/"
+INT_LOCATION = PATH + "/01_22_13_raw_finesse_test/"
+# RUN NAME is the string at the end of the folder
+RUN_NAME = "Measurement"
+GUI_DATA_LOCATION = "/disk1/sm4219/WHAFFERS/01_22_13_raw_finesse_test/Vaisala_and_logs/20250122_logfile.txt"
 
-PATH2 = "/disk1/sm4219/GIT/FINESSE_CAL/"
-DATA_LOCATION = PATH2 + f"/Processed_Data_soph/{DATE}/"
+DATA_LOCATION = PATH + f"/Processed_Data_test/{DATE}/"
 # DATA_LOCATION = PATH+f"Processed_Data_FOR_SOPHIE/{DATE}/"
 AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints/"
-RESPONSE_FUNCTION_LOCATION = DATA_LOCATION + "response_functions/"
-GUI_DATA_LOCATION = PATH + f"Raw_Data/{DATE}/" + "clear_sky1-20230220103722.log"
 
+RESPONSE_FUNCTION_LOCATION = DATA_LOCATION + "response_functions/"
 Path(RESPONSE_FUNCTION_LOCATION).mkdir(parents=True, exist_ok=True)
 
 gui_data = cal.load_gui(GUI_DATA_LOCATION)

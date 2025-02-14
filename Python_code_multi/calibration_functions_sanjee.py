@@ -73,8 +73,8 @@ def load_gui(filename):
             "PRT2"        Temp of PRT2         °C
             "PRT3"        Temp of PRT3         °C
             "PRT4"        Temp of PRT4         °C
-            "PRT5"        Temp of PRT5         °C
-            "PRT6"        Temp of PRT6         °C
+            "PRT5"        Temp of PRT5 Front CBB  °C
+            "PRT6"        Temp of PRT6 Front HBB         °C
             "HBB"         Temp of HBB          °C
             "CBB"         Temp of CBB          °C
             "time"        Time of measurement  Seconds since midnight
@@ -99,6 +99,7 @@ def load_gui(filename):
         filename,
         header=0,
         names=names,
+        delimiter="\t",
         usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         na_values="-",
     )
@@ -2584,3 +2585,113 @@ def calculate_nesr(wns, rads):
             nesr.append(np.nan)
 
     return nesr
+
+def chop_int(FOLDER, len_int, n_chop):
+    """
+    We chop ints into 4 ints
+    If the length isn't right pads out with 100
+    If the length is wrong by >10% len_int will return error    
+    """
+
+    output_em = np.empty((n_chop, len_int))
+    ints_names = glob(FOLDER + "/*.0")
+    ints_names.sort()
+    
+    for i, name in enumerate(ints_names):
+        data = np.fromfile(name, np.float32)
+        output_em[0, :] = data[0:len_int]
+        # plt.plot(data[0:len_int])
+        output_em[1, :] = data[len_int:(2*len_int)]
+        # plt.plot(data[len_int:(2*len_int)])
+        output_em[2, :] = data[2*len_int:(3*len_int)]
+        # plt.plot(data[2*len_int:(3*len_int)])
+        # plt.plot(data[3*len_int:])
+        # plt.ylim(-1,1)
+        # plt.show()
+        differ = len(data[3*len_int:]) - (len_int)
+        print(differ)
+        if abs(differ) > (0.1 * len_int):
+            raise RuntimeError("Cutting lengths are wrong") 
+        elif differ > 0:
+            print("Cutting length is going to cut some data")
+        elif differ < 0:
+            data = np.append(data, [100] * abs(differ))
+        output_em[3, :] = data[3*len_int:(4*len_int)]
+    return output_em
+
+
+def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=False, n_chop=4):
+    """Load all interferograms from a folder created by the Opus software,
+    chop them into segments, and return the averaged interferogram along with
+    metadata.
+
+    Args:
+        FOLDER (string): location of folder
+        len_int (int, optional): length of the interferogram. If 0, the length 
+        of the first interferogram is taken. Defaults to 0.
+        return_n (bool, optional): Return the number of interferograms. Defaults to True.
+        centre_place (bool, optional): Return the position of the centre burst.
+        Defaults to False.
+        n_chop (int, optional): Number of segments each interferogram should be chopped into. Defaults to 4.
+
+    Returns:
+        array: averaged interferogram
+        tuple: start and end times for the average interferogram
+        int: if return_n=True: Number of interferograms averaged
+        list: if centre_place=True: List of centre burst locations
+    """
+    ints_names = glob(FOLDER + "/*.0")
+    ints_names.sort()
+    centre_places = []
+
+    for i, name in enumerate(ints_names):
+        chopped_data = chop_int(FOLDER, len_int, n_chop) 
+
+        for j in range(n_chop): 
+            centre_point = np.argmax(chopped_data[j, 10000:-10000])  
+            centre_places.append(centre_point) 
+
+        if i == 0:
+            if len_int == 0:
+                ints = np.empty((len(ints_names) * n_chop, chopped_data.shape[1])) 
+            else:
+                ints = np.empty((len(ints_names) * n_chop, len_int)) 
+
+        if len_int == 0:
+            ints[i*n_chop:(i+1)*n_chop, :] = chopped_data
+        else:
+            ints[i*n_chop:(i+1)*n_chop, :] = chopped_data[0:len_int*4]
+        "STUCK HERE"
+
+
+    times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
+    time_strings = np.loadtxt(
+        times_name,
+        dtype="str",
+        delimiter="\t",
+        skiprows=2,
+        usecols=[1],
+        unpack=True,
+    )
+    times = [string_to_seconds_bruker(time) for time in time_strings]
+
+    if not all_equal(centre_places):
+        print("Warning, centre burst not in same position when averaging")
+        print(FOLDER)
+        print(centre_places)
+
+    "WRONG HERE?"
+    average_int = np.average(ints, axis=0)
+
+
+    start_end = (min(times), max(times))
+    n = len(ints)  
+
+    if return_n and centre_place:
+        return average_int, start_end, n, centre_places
+    elif return_n:
+        return average_int, start_end, n
+    elif centre_place:
+        return average_int, start_end, centre_places
+    else:
+        return average_int, start_end

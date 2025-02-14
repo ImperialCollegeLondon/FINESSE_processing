@@ -10,15 +10,19 @@ import calibration_functions_sanjee as cal
 from math import floor
 
 DATE = "20230220"
-PATH = "/disk1/Andoya/sp1016/"
-# DATA_LOCATION = PATH+f"Processed_Data_FOR_SOPHIE/{DATE}/"
+PATH = "/disk1/sm4219/WHAFFERS/"
+INT_LOCATION = PATH + "/01_22_13_raw_finesse_test/"
+# RUN NAME is the string at the end of the folder
+RUN_NAME = "Measurement"
+GUI_DATA_LOCATION = "/disk1/sm4219/WHAFFERS/01_22_13_raw_finesse_test/Vaisala_and_logs/20250122_logfile.txt"
 
-PATH2 = "/disk1/sm4219/GIT/FINESSE_CAL/"
-DATA_LOCATION = PATH2 + f"/Processed_Data_soph/{DATE}/"
-AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints/"
+# The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
+INDIVIDUAL_SAVE_LOCATION = (
+    PATH + f"/Processed_Data_test/prepared_individual_ints/"
+)
+
 SPECTRUM_LOCATION = DATA_LOCATION + "calibrated_spectra/"
-GUI_DATA_LOCATION = PATH + f"Raw_Data/{DATE}/" + "clear_sky1-20230220103722.log"
-
+AVERAGED_SAVE_LOCATION = PATH + f"/Processed_Data_test/{DATE}/prepared_ints/"
 Path(SPECTRUM_LOCATION).mkdir(parents=True, exist_ok=True)
 OPD = 1.21
 OUTPUT_FREQUENCY = 0.0605 / OPD
