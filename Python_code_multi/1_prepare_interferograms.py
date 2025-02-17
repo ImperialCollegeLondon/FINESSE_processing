@@ -3,6 +3,8 @@ Prepare interferograms for use in calibration
 Produces interferograms averaged for each scan cycle
 Only Averages hot and cold spectra 
 Skips any other angles
+
+NEED TO: write function that algins, takes output centre bursts and algins ints
 """
 
 from glob import glob

@@ -2587,38 +2587,36 @@ def calculate_nesr(wns, rads):
     return nesr
 
 
-def chop_int(FOLDER, len_int, n_chop):
+def chop_int(filename, len_int, n_chop):
     """
     We chop ints into 4 ints
     If the length isn't right pads out with 100
     If the length is wrong by >10% len_int will return error    
     """
-
     output_em = np.empty((n_chop, len_int))
-    ints_names = glob(FOLDER + "/*.0")
-    ints_names.sort()
     warning_printed = False
-    for i, name in enumerate(ints_names):
-        data = np.fromfile(name, np.float32)
-        output_em[0, :] = data[0:len_int]
-        # plt.plot(data[0:len_int])
-        output_em[1, :] = data[len_int:(2*len_int)]
-        # plt.plot(data[len_int:(2*len_int)])
-        output_em[2, :] = data[2*len_int:(3*len_int)]
-        # plt.plot(data[2*len_int:(3*len_int)])
-        # plt.plot(data[3*len_int:])
-        # plt.ylim(-1,1)
-        # plt.show()
-        differ = len(data[3*len_int:]) - (len_int)
-        # print(differ)
-        if abs(differ) > (0.1 * len_int):
-            raise RuntimeError("Cutting lengths are wrong") 
-        elif differ > 0 and not warning_printed:
-            print("Cutting length is going to cut some data")
-            warning_printed = True
-        elif differ < 0:
-            data = np.append(data, [100] * abs(differ))
-        output_em[3, :] = data[3*len_int:(4*len_int)]
+
+    data = np.fromfile(filename, np.float32)
+    output_em[0, :] = data[0:len_int]
+    # plt.plot(data[0:len_int])
+    output_em[1, :] = data[len_int:(2*len_int)]
+    # plt.plot(data[len_int:(2*len_int)])
+    output_em[2, :] = data[2*len_int:(3*len_int)]
+    # plt.plot(data[2*len_int:(3*len_int)])
+    # plt.plot(data[3*len_int:])
+    # plt.ylim(-1,1)
+    # plt.show()
+    differ = len(data[3*len_int:]) - (len_int)
+    # print(differ)
+    if abs(differ) > (0.1 * len_int):
+        raise RuntimeError("Cutting lengths are wrong") 
+    elif differ > 0 and not warning_printed:
+        # print("Cutting length is going to cut some data")
+        # NEED TO FIX THIS SO IT DOESN'T PRINT A MILLION TIMES OUT...
+        warning_printed = True
+    elif differ < 0:
+        data = np.append(data, [100] * abs(differ))
+    output_em[3, :] = data[3*len_int:(4*len_int)]
     return output_em
 
 
@@ -2647,7 +2645,9 @@ def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=Fa
     centre_places = []
 
     for i, name in enumerate(ints_names):
-        chopped_data = chop_int(FOLDER, len_int, n_chop) 
+        chopped_data = chop_int(name, len_int, n_chop) 
+        print("shape chopped data:", np.shape(chopped_data))
+        print("name", name)
 
         for j in range(n_chop): 
             centre_point = np.argmax(chopped_data[j, 10000:-10000])  
@@ -2660,7 +2660,8 @@ def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=Fa
                 ints = np.empty((len(ints_names) * n_chop, len_int)) 
 
         ints[i*n_chop:(i+1)*n_chop, :] = chopped_data
-
+    
+    print("shape ints", np.shape(ints))
     times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
     time_strings = np.loadtxt(
         times_name,
