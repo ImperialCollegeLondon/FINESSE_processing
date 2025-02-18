@@ -2707,3 +2707,70 @@ def find_time(FOLDER):
     times = [string_to_seconds_bruker(time) for time in time_strings]
     start_end = (min(times), max(times))
     return start_end
+
+
+
+def calibrate_spectrum_with_complex(
+    int_scene,
+    int_HBB,
+    int_CBB,
+    temp_HBB,
+    temp_CBB,
+    resolution=0.5,
+    fre_interval=0.01,
+    low_res_trunk=16384,
+    NESR_number=20,
+):
+    """Calibrate scene view using interferogram method
+
+    Args:
+        int_scene (np.array): interferogram of scene view
+        int_HBB (np.array): interferogram of HBB
+        int_CBB (np.array): interferogram of CBB
+        temp_HBB (float): temperature of HBB (degC)
+        temp_CBB (float): temperature of CBB (degC)
+        resolution (float, optional): Resolution of output spectrum.
+            Defaults to 0.5.
+        fre_interval (float, optional): Frequency grid for output
+            spectrum. Defaults to 0.01.
+        low_res_trunk (int, optional): Number of points used to calculate
+            phase angle. Defaults to 16384.
+        NESR_number (int, optional): Number of points used in rolling
+            window to calculate NESR. Defaults to 20.
+
+    Returns:
+        np.array: wavenumber scale (cm-1)
+        np.array: radiance (W/m^2/sr/cm-1)
+        np.array: NESR (W/m^2/sr/cm-1)
+    """
+    wn, resp, _ = calculate_response_function(
+        int_HBB, int_CBB, temp_HBB, temp_CBB, resolution, fre_interval, low_res_trunk
+    )
+    # Calculate spectrum of scene minus HBB
+    spectrum_scene, _ = finesse_fft(
+        int_scene - int_HBB, resolution, fre_interval, low_res_trunk
+    )
+
+    # Check wn scales are the same
+    if not np.all(wn == spectrum_scene[0, :]):
+        print("Wn scales different something is wrong")
+        return None
+
+    L_HBB = planck(wn, temp_HBB)
+
+    rad_scene = (spectrum_scene[1, :] / resp) + L_HBB
+    rad_complex = (spectrum_scene[2, :] / resp) + L_HBB
+
+    # Calculate NESR from imaginary part of corrected spectrum
+    print("Using old method to calculate NESR - see comment in code")
+    # NESR should be calculated by comparing consecutive spectra of the same scene (see Jon's paper)
+    # This script is for a single spectra and so this cannot be easily done
+    # Instead write an additional function to calculate the residuals between consecutive spectra
+    # And fill nesr with nans
+    rad_NESR = spectrum_scene[2, :] / resp
+    rad_NESR = pd.DataFrame(rad_NESR, columns=["rad"])
+    NESR = rad_NESR.rad.rolling(NESR_number).std()
+
+    NESR[:] = np.nan
+
+    return wn, rad_scene, rad_complex, NESR

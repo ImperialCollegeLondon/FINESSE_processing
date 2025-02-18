@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 
 # Name the file you want to look at
 filename = "/disk1/sm4219/Testing_FINESSE_plots/Laura_response_part3/42017.txt"
-SAVE = "/disk1/sm4219/Testing_FINESSE_plots/Laura_response_part3/"
+filenames = "/disk1/sm4219/WHAFFERS/Processed_Data_test/20230220/calibrated_trial1calibrated_spectrum_(47192.0, 47251.0)_shift24.txt"
+SAVE = "/disk1/sm4219/WHAFFERS//Processed_Data_test/20230220/calibrated_trial1/"
 
 
 def load_data(filename):
@@ -19,22 +20,24 @@ def load_data(filename):
     wn = data[:, 0]
     radiance = data[:, 1]
     nesr = data[:, 2]
-    pos_calib_error = data[:, 3]
-    neg_calib_error = data[:, 4]
+    # pos_calib_error = data[:, 3]
+    # neg_calib_error = data[:, 4]
 
-    return wn, radiance, nesr, pos_calib_error, neg_calib_error
+    return wn, radiance, nesr
 
 
-wn, radiance, nesr, pos_calib_error, neg_calib_error = load_data(filename)
+wn, radiance, nesr = load_data(filename)
 
+print(wn[1:], radiance[1:])
 # PLOTTING CODE
 # Could add in blackbody curve here
 # Could add in LBLRTM simulation spectra output
 fig = plt.figure(figsize=(8, 6))
-plt.plot(wn, radiance, label="FINESSE data")
+plt.plot(wn[1:], radiance[1:], label="FINESSE data")
 plt.xlim(400, 1600)
-plt.ylim(0, 0.12)
+# plt.ylim(0, 0.12)
 plt.ylabel("Radiance / [W m-2 sr-1 / cm-1]")
 plt.xlabel("Wavenumbers / [cm-1]")
 plt.legend()
 plt.savefig(SAVE + "final_look_plot.png")
+plt.close()

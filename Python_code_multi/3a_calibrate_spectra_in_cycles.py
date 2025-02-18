@@ -26,7 +26,7 @@ SPECTRUM_LOCATION = DATA_LOCATION + "calibrated_spectra/"
 AVERAGED_SAVE_LOCATION = PATH + f"/Processed_Data_test/{DATE}/prepared_ints_new/"
 Path(SPECTRUM_LOCATION).mkdir(parents=True, exist_ok=True)
 
-FINAL_CAL_SAVED = PATH + f"/Processed_Data_test/{DATE}/prepared_ints_new/calibrated_trial1"
+FINAL_CAL_SAVED = PATH + f"/Processed_Data_test/{DATE}/calibrated_trial1/"
 Path(FINAL_CAL_SAVED).mkdir(parents=True, exist_ok=True)
 
 OPD = 1.21
@@ -38,8 +38,8 @@ gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
 # Find all averaged interferogram files
 "Averaged only contains HBB + CBB"
-int_list = glob(AVERAGED_INT_LOCATION + "*.txt")
-int_list.sort()
+int_list_avg = glob(AVERAGED_INT_LOCATION + "*.txt")
+int_list_avg.sort()
 
 # Load HBB and CBB interferograms and get HBB and CBB temps
 cal_ints = []
@@ -49,8 +49,8 @@ CBB_temps = []
 CBB_std = []
 cal_angles = []
 cal_times = []
-total_ints = len(int_list)
-for i, name in enumerate(int_list):
+total_ints = len(int_list_avg)
+for i, name in enumerate(int_list_avg):
     if i % 5 == 0:
         print("Loading %i of %i" % (i, total_ints))
     print(name)
@@ -75,7 +75,6 @@ for i, name in enumerate(int_list):
 
 print("cal_ints", cal_ints)
 print("cal_times", cal_times)
-
 
 "This will contain all"
 FOLDERS = glob(INT_LOCATION + "*" + RUN_NAME + "/")
@@ -106,6 +105,16 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
 print("Times 180", times_180)
 
 for FOLDER, angle in zip(FOLDERS, angles_all):
+    """
+    1. This goes through folders and finds 180 folder views
+    2. Finds nearest HBB and CBB view to that 180
+    (Need to implement that takes before and after and averages)
+    3. Goes into 180 folder and chops into 4 inteferograms
+    4. Shifts the 180 view with respect to HBB and CBB
+    5. Calibrates returns complex rad
+    6. Checks which shift gives minimum STD of complex rad in 600 to 650 region 
+    7. Saves wn and real rad of minimum shift if std < 0.01
+    """
     start_end_time = cal.find_time(FOLDER)  # Get the time for this FOLDER
 
     # Find all indices of angle = 180.0
@@ -138,43 +147,75 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
                 CBB_int_nearest = cal_ints[idx_time_225]
 
                 # print(f"FOLDER: {FOLDER}, HBB_temp (270): {HBB_temp_nearest}, CBB_temp (225): {CBB_temp_nearest}")
-                print("HBB int nearest full and size 1", HBB_int_nearest, len(HBB_int_nearest))
+                # print("HBB int nearest full and size 1", HBB_int_nearest, len(HBB_int_nearest))
                 # within each folder there are many .0 files
                 ints_names = glob(FOLDER + "/*.0")
                 ints_names.sort()
                 centre_places = []
                 # Need to chop int files into four
                 for name in ints_names:
+                    print("Int name here:", name)
                     chopped_data = cal.chop_int(name, len_int=(57090-178), n_chop=4)
-
+                    # print("Chopped data", chopped_data, np.shape(chopped_data))
                     # Isolating each of the columns
-                    for col_idx in range(chopped_data.shape[1]):  # Number of columns
-                        col_int = chopped_data[:, col_idx]  # Extract column values
+                    for col_idx in range(chopped_data.shape[0]):  # Number of columns
+                        col_int = chopped_data[col_idx, :]  # Extract column values
+                    
+                        best_QA = float('inf')  # Initialize with a high value
+                        best_shift = None  # Track the best shift
+                        best_rad_complex = None
+                        best_wn = None
+                        best_rad = None
+                        best_NESR = None
                         
                         "IMPLEMENTING THE SHIFT"
                         for shift in range(22, 25):
-                            print("HBB int nearest full and size 2", HBB_int_nearest, len(HBB_int_nearest))
+                            # print("SCENE int nearest full and size 2", col_int, len(col_int))
                             hbb_int_crop = HBB_int_nearest[100:-100]
                             cbb_int_crop = CBB_int_nearest[100:-100]
-                            shift_int_scene =  col_int[100 - shift : - (100 - shift)]
+                            shift_int_scene =  col_int[100 - shift : - (100 + shift)]
 
-                            print("HBB int crop", hbb_int_crop, cbb_int_crop, shift_int_scene)
+                            # print("HBB and SCENE", hbb_int_crop, len(hbb_int_crop), shift_int_scene, len(shift_int_scene))
+                            # raise(KeyboardInterrupt)
                         # Calibrate the spectrum using the shifted data
-                        calibrated_spectrum = cal.calibrate_spectrum(
+                        (wn,
+                        rad,
+                        rad_complex,
+                        NESR)= cal.calibrate_spectrum_with_complex(
                             shift_int_scene,
                             hbb_int_crop,
                             cbb_int_crop,
                             HBB_temp_nearest,
                             CBB_temp_nearest
                         )
+                        # Selecting region 600 to 650
+                        crop_indexes = np.where((wn >= 600) & (wn <= 650))[0]
+                        wn_cropped = wn[crop_indexes]
+                        rad_complex_cropped = rad_complex[crop_indexes]
+                        # print(wn_cropped)
+                        
+                        QA_check = np.std(rad_complex_cropped)
+
+                        if QA_check < best_QA:  # Keep track of the best shift based on min QA
+                            best_QA = QA_check
+                            best_shift = shift
+                            best_rad_complex = rad_complex
+                            best_wn = wn
+                            best_rad = rad
+                            best_NESR = NESR
                     
+                    if best_QA < 0.01 and best_shift is not None:
                         # Create the header with the shift number and other relevant info
                         header = f"Shift: {shift}, Folder: {FOLDER}, Time: {start_end_time}, HBB_temp: {HBB_temp_nearest}, CBB_temp: {CBB_temp_nearest}"
-                    
+
+                        data_out = np.column_stack((best_wn, best_rad, best_NESR))
                         # Save the calibrated spectrum, include the time and shift number in the filename
                         save_filename = FINAL_CAL_SAVED + f"calibrated_spectrum_{start_end_time}_shift{shift}.txt"
-                        np.savetxt(save_filename, calibrated_spectrum, header=header)
-
+                        np.savetxt(save_filename, data_out, header=header)
+                        print("Saved to", save_filename)
+                        raise(KeyboardInterrupt)
+                    else:
+                        print("No valid shift found with QA below threshold.", name, col_idx)
 
 
 raise(KeyboardInterrupt)
