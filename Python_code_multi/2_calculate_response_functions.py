@@ -5,6 +5,7 @@ n.b. at the moment this assumes an OPD of 1.8cm
 and a boxcar apodisation function
 
 THIS CODE is for the multi case and is working
+There is a check on if the centrebursts are in the same place or not, will print statemnet if not
 
 """
 
@@ -16,15 +17,17 @@ import calibration_functions_sanjee as cal
 from math import floor
 
 DATE = "20230220"
-PATH = "/disk1/Andoya/sp1016/"
+PATH = "/disk1/sm4219/WHAFFERS/"
+INT_LOCATION = PATH + "/01_22_13_raw_finesse_test/"
+# RUN NAME is the string at the end of the folder
+RUN_NAME = "Measurement"
+GUI_DATA_LOCATION = "/disk1/sm4219/WHAFFERS/01_22_13_raw_finesse_test/Vaisala_and_logs/20250122_logfile.txt"
 
-PATH2 = "/disk1/sm4219/GIT/FINESSE_CAL/"
-DATA_LOCATION = PATH2 + f"/Processed_Data_soph/{DATE}/"
+DATA_LOCATION = PATH + f"/Processed_Data_test/{DATE}/"
 # DATA_LOCATION = PATH+f"Processed_Data_FOR_SOPHIE/{DATE}/"
-AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints/"
-RESPONSE_FUNCTION_LOCATION = DATA_LOCATION + "response_functions/"
-GUI_DATA_LOCATION = PATH + f"Raw_Data/{DATE}/" + "clear_sky1-20230220103722.log"
+AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints_new/"
 
+RESPONSE_FUNCTION_LOCATION = DATA_LOCATION + "response_functions/"
 Path(RESPONSE_FUNCTION_LOCATION).mkdir(parents=True, exist_ok=True)
 
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
@@ -32,6 +35,7 @@ gui_data = cal.load_gui(GUI_DATA_LOCATION)
 # Find all averaged interferogram files
 int_list = glob(AVERAGED_INT_LOCATION + "*.txt")
 int_list.sort()
+
 
 # Load interferograms and get HBB and CBB temps
 ints = []
@@ -113,6 +117,12 @@ for i, index in enumerate(cal_locations):
     )
     print(header)
     data = np.column_stack((wn, resp_temp_unapp))
+
+    centre_HBB = np.argmax(int_HBB)
+    centre_CBB = np.argmax(int_HBB)
+    if centre_HBB - centre_CBB != 0:
+        print("Difference between HBB and CBB centrebursts")
+
     np.savetxt(
         RESPONSE_FUNCTION_LOCATION + "%i.txt" % HBB_times[0], data, header=header
     )

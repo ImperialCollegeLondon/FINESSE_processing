@@ -73,8 +73,8 @@ def load_gui(filename):
             "PRT2"        Temp of PRT2         °C
             "PRT3"        Temp of PRT3         °C
             "PRT4"        Temp of PRT4         °C
-            "PRT5"        Temp of PRT5         °C
-            "PRT6"        Temp of PRT6         °C
+            "PRT5"        Temp of PRT5 Front CBB  °C
+            "PRT6"        Temp of PRT6 Front HBB         °C
             "HBB"         Temp of HBB          °C
             "CBB"         Temp of CBB          °C
             "time"        Time of measurement  Seconds since midnight
@@ -99,6 +99,7 @@ def load_gui(filename):
         filename,
         header=0,
         names=names,
+        delimiter="\t",
         usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         na_values="-",
     )
@@ -2584,3 +2585,207 @@ def calculate_nesr(wns, rads):
             nesr.append(np.nan)
 
     return nesr
+
+
+def chop_int(filename, len_int, n_chop):
+    """
+    We chop ints into 4 ints
+    If the length isn't right pads out with 100
+    If the length is wrong by >10% len_int will return error
+    """
+    output_em = np.empty((n_chop, len_int))
+    warning_printed = False
+
+    data = np.fromfile(filename, np.float32)
+    output_em[0, :] = data[0:len_int]
+    # plt.plot(data[0:len_int])
+    output_em[1, :] = data[len_int : (2 * len_int)]
+    # plt.plot(data[len_int:(2*len_int)])
+    output_em[2, :] = data[2 * len_int : (3 * len_int)]
+    # plt.plot(data[2*len_int:(3*len_int)])
+    # plt.plot(data[3*len_int:])
+    # plt.ylim(-1,1)
+    # plt.show()
+    differ = len(data[3 * len_int :]) - (len_int)
+    # print(differ)
+    if abs(differ) > (0.1 * len_int):
+        raise RuntimeError("Cutting lengths are wrong")
+    elif differ > 0 and not warning_printed:
+        # print("Cutting length is going to cut some data")
+        # NEED TO FIX THIS SO IT DOESN'T PRINT A MILLION TIMES OUT...
+        warning_printed = True
+    elif differ < 0:
+        data = np.append(data, [100] * abs(differ))
+    output_em[3, :] = data[3 * len_int : (4 * len_int)]
+    return output_em
+
+
+def average_ints_in_folder_new(
+    FOLDER, len_int=0, return_n=True, centre_place=False, n_chop=4
+):
+    """Load all interferograms from a folder created by the Opus software,
+    chop them into segments, and return the averaged interferogram along with
+    metadata.
+
+    Args:
+        FOLDER (string): location of folder
+        len_int (int, optional): length of the interferogram. If 0, the length
+        of the first interferogram is taken. Defaults to 0.
+        return_n (bool, optional): Return the number of interferograms. Defaults to True.
+        centre_place (bool, optional): Return the position of the centre burst.
+        Defaults to False.
+        n_chop (int, optional): Number of segments each interferogram should be chopped into. Defaults to 4.
+
+    Returns:
+        array: averaged interferogram
+        tuple: start and end times for the average interferogram
+        int: if return_n=True: Number of interferograms averaged
+        list: if centre_place=True: List of centre burst locations
+    """
+    ints_names = glob(FOLDER + "/*.0")
+    ints_names.sort()
+    centre_places = []
+
+    for i, name in enumerate(ints_names):
+        chopped_data = chop_int(name, len_int, n_chop)
+        print("shape chopped data:", np.shape(chopped_data))
+        print("name", name)
+
+        for j in range(n_chop):
+            centre_point = np.argmax(chopped_data[j, 10000:-10000])
+            centre_places.append(centre_point)
+
+        if i == 0:
+            if len_int == 0:
+                ints = np.empty((len(ints_names) * n_chop, chopped_data.shape[1]))
+            else:
+                ints = np.empty((len(ints_names) * n_chop, len_int))
+
+        ints[i * n_chop : (i + 1) * n_chop, :] = chopped_data
+
+    print("shape ints", np.shape(ints))
+    times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
+    time_strings = np.loadtxt(
+        times_name,
+        dtype="str",
+        delimiter="\t",
+        skiprows=2,
+        usecols=[1],
+        unpack=True,
+    )
+    times = [string_to_seconds_bruker(time) for time in time_strings]
+
+    if not all_equal(centre_places):
+        print("Warning, centre burst not in same position when averaging")
+        print(FOLDER)
+        print(centre_places)
+
+    "WRONG HERE?"
+    average_int = np.average(ints, axis=0)
+
+    start_end = (min(times), max(times))
+    n = len(ints)
+
+    if return_n and centre_place:
+        return average_int, start_end, n, centre_places
+    elif return_n:
+        return average_int, start_end, n
+    elif centre_place:
+        return average_int, start_end, centre_places
+    else:
+        return average_int, start_end
+
+
+def find_time(FOLDER):
+    times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
+    time_strings = np.loadtxt(
+        times_name,
+        dtype="str",
+        delimiter="\t",
+        skiprows=2,
+        usecols=[1],
+        unpack=True,
+    )
+    times = [string_to_seconds_bruker(time) for time in time_strings]
+    start_end = (min(times), max(times))
+    return start_end
+
+
+def calibrate_spectrum_with_complex(
+    int_scene,
+    int_HBB,
+    int_CBB,
+    temp_HBB,
+    temp_CBB,
+    resolution=0.5,
+    fre_interval=0.01,
+    low_res_trunk=16384,
+    NESR_number=20,
+):
+    """Calibrate scene view using interferogram method
+
+    Args:
+        int_scene (np.array): interferogram of scene view
+        int_HBB (np.array): interferogram of HBB
+        int_CBB (np.array): interferogram of CBB
+        temp_HBB (float): temperature of HBB (degC)
+        temp_CBB (float): temperature of CBB (degC)
+        resolution (float, optional): Resolution of output spectrum.
+            Defaults to 0.5.
+        fre_interval (float, optional): Frequency grid for output
+            spectrum. Defaults to 0.01.
+        low_res_trunk (int, optional): Number of points used to calculate
+            phase angle. Defaults to 16384.
+        NESR_number (int, optional): Number of points used in rolling
+            window to calculate NESR. Defaults to 20.
+
+    Returns:
+        np.array: wavenumber scale (cm-1)
+        np.array: radiance (W/m^2/sr/cm-1)
+        np.array: NESR (W/m^2/sr/cm-1)
+    """
+    wn, resp, _ = calculate_response_function(
+        int_HBB, int_CBB, temp_HBB, temp_CBB, resolution, fre_interval, low_res_trunk
+    )
+    # plt.figure()
+    # plt.plot(wn, resp, label='response')
+    # plt.xlim(400,1600)
+    # plt.ylim(0,10)
+    # plt.legend()
+    # plt.show()
+    # Calculate spectrum of scene minus HBB
+    spectrum_scene, _ = finesse_fft(
+        int_scene - int_HBB, resolution, fre_interval, low_res_trunk
+    )
+
+    # Check wn scales are the same
+    if not np.all(wn == spectrum_scene[0, :]):
+        print("Wn scales different something is wrong")
+        return None
+
+    L_HBB = planck(wn, temp_HBB)
+
+    rad_scene = (spectrum_scene[1, :] / resp) + L_HBB
+    rad_complex = spectrum_scene[2, :] / resp
+
+    # plt.figure()
+    # plt.plot(wn, rad_scene, label='real rad')
+    # plt.plot(wn, rad_complex, label='im rad')
+    # plt.xlim(400,1600)
+    # plt.ylim(0, 0.12)
+    # plt.legend()
+    # plt.show()
+
+    # Calculate NESR from imaginary part of corrected spectrum
+    print("Using old method to calculate NESR - see comment in code")
+    # NESR should be calculated by comparing consecutive spectra of the same scene (see Jon's paper)
+    # This script is for a single spectra and so this cannot be easily done
+    # Instead write an additional function to calculate the residuals between consecutive spectra
+    # And fill nesr with nans
+    rad_NESR = spectrum_scene[2, :] / resp
+    rad_NESR = pd.DataFrame(rad_NESR, columns=["rad"])
+    NESR = rad_NESR.rad.rolling(NESR_number).std()
+
+    NESR[:] = np.nan
+
+    return wn, rad_scene, rad_complex, NESR
