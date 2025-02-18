@@ -2746,6 +2746,12 @@ def calibrate_spectrum_with_complex(
     wn, resp, _ = calculate_response_function(
         int_HBB, int_CBB, temp_HBB, temp_CBB, resolution, fre_interval, low_res_trunk
     )
+    # plt.figure()
+    # plt.plot(wn, resp, label='response')
+    # plt.xlim(400,1600)
+    # plt.ylim(0,10)
+    # plt.legend()
+    # plt.show()
     # Calculate spectrum of scene minus HBB
     spectrum_scene, _ = finesse_fft(
         int_scene - int_HBB, resolution, fre_interval, low_res_trunk
@@ -2759,7 +2765,16 @@ def calibrate_spectrum_with_complex(
     L_HBB = planck(wn, temp_HBB)
 
     rad_scene = (spectrum_scene[1, :] / resp) + L_HBB
-    rad_complex = (spectrum_scene[2, :] / resp) + L_HBB
+    rad_complex = (spectrum_scene[2, :] / resp)
+
+    # plt.figure()
+    # plt.plot(wn, rad_scene, label='real rad')
+    # plt.plot(wn, rad_complex, label='im rad')
+    # plt.xlim(400,1600)
+    # plt.ylim(0, 0.12)
+    # plt.legend()
+    # plt.show()
+
 
     # Calculate NESR from imaginary part of corrected spectrum
     print("Using old method to calculate NESR - see comment in code")
