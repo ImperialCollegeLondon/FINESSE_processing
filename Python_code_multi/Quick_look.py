@@ -46,7 +46,7 @@ plt.close()
 
 """
 
-# LOOKING AT THEM ALL 
+# LOOKING AT THEM ALL
 
 import os
 import re
@@ -56,6 +56,7 @@ import matplotlib.pyplot as plt
 # File locations
 filelocation = "/disk1/sm4219/WHAFFERS/Processed_Data_test/20230220/calibrated_trial3/"
 SAVE = "/disk1/sm4219/WHAFFERS/Processed_Data_test/20230220/calibrated_trial3/"
+
 
 # Function to load data
 def load_data(filename):
@@ -69,11 +70,12 @@ def load_data(filename):
 
     return wn, radiance
 
+
 # Plot all files
 fig, ax = plt.subplots(figsize=(8, 6))
 
 # Regular expression pattern to extract numbers in the filename
-pattern = re.compile(r'calibrated_spectrum_(\d+\.\d+)\.txt')
+pattern = re.compile(r"calibrated_spectrum_(\d+\.\d+)\.txt")
 
 for filename in os.listdir(filelocation):
     match = pattern.match(filename)
@@ -89,7 +91,7 @@ ax.set_xlim(400, 1600)
 ax.set_ylim(0, 0.12)
 ax.set_xlabel("Wavenumbers / [cm⁻¹]")
 ax.set_ylabel("Radiance / [W m⁻² sr⁻¹ cm⁻¹]")
-ax.legend(title="Spectral Ranges", fontsize=8, loc='upper right')
+ax.legend(title="Spectral Ranges", fontsize=8, loc="upper right")
 plt.title("Calibrated Spectra")
 
 # Save and close the plot
@@ -97,4 +99,3 @@ plt.savefig(os.path.join(SAVE, "final_look_plot.png"))
 plt.close()
 
 print("Plot saved successfully.")
-

@@ -2591,7 +2591,7 @@ def chop_int(filename, len_int, n_chop):
     """
     We chop ints into 4 ints
     If the length isn't right pads out with 100
-    If the length is wrong by >10% len_int will return error    
+    If the length is wrong by >10% len_int will return error
     """
     output_em = np.empty((n_chop, len_int))
     warning_printed = False
@@ -2599,35 +2599,37 @@ def chop_int(filename, len_int, n_chop):
     data = np.fromfile(filename, np.float32)
     output_em[0, :] = data[0:len_int]
     # plt.plot(data[0:len_int])
-    output_em[1, :] = data[len_int:(2*len_int)]
+    output_em[1, :] = data[len_int : (2 * len_int)]
     # plt.plot(data[len_int:(2*len_int)])
-    output_em[2, :] = data[2*len_int:(3*len_int)]
+    output_em[2, :] = data[2 * len_int : (3 * len_int)]
     # plt.plot(data[2*len_int:(3*len_int)])
     # plt.plot(data[3*len_int:])
     # plt.ylim(-1,1)
     # plt.show()
-    differ = len(data[3*len_int:]) - (len_int)
+    differ = len(data[3 * len_int :]) - (len_int)
     # print(differ)
     if abs(differ) > (0.1 * len_int):
-        raise RuntimeError("Cutting lengths are wrong") 
+        raise RuntimeError("Cutting lengths are wrong")
     elif differ > 0 and not warning_printed:
         # print("Cutting length is going to cut some data")
         # NEED TO FIX THIS SO IT DOESN'T PRINT A MILLION TIMES OUT...
         warning_printed = True
     elif differ < 0:
         data = np.append(data, [100] * abs(differ))
-    output_em[3, :] = data[3*len_int:(4*len_int)]
+    output_em[3, :] = data[3 * len_int : (4 * len_int)]
     return output_em
 
 
-def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=False, n_chop=4):
+def average_ints_in_folder_new(
+    FOLDER, len_int=0, return_n=True, centre_place=False, n_chop=4
+):
     """Load all interferograms from a folder created by the Opus software,
     chop them into segments, and return the averaged interferogram along with
     metadata.
 
     Args:
         FOLDER (string): location of folder
-        len_int (int, optional): length of the interferogram. If 0, the length 
+        len_int (int, optional): length of the interferogram. If 0, the length
         of the first interferogram is taken. Defaults to 0.
         return_n (bool, optional): Return the number of interferograms. Defaults to True.
         centre_place (bool, optional): Return the position of the centre burst.
@@ -2645,22 +2647,22 @@ def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=Fa
     centre_places = []
 
     for i, name in enumerate(ints_names):
-        chopped_data = chop_int(name, len_int, n_chop) 
+        chopped_data = chop_int(name, len_int, n_chop)
         print("shape chopped data:", np.shape(chopped_data))
         print("name", name)
 
-        for j in range(n_chop): 
-            centre_point = np.argmax(chopped_data[j, 10000:-10000])  
-            centre_places.append(centre_point) 
+        for j in range(n_chop):
+            centre_point = np.argmax(chopped_data[j, 10000:-10000])
+            centre_places.append(centre_point)
 
         if i == 0:
             if len_int == 0:
-                ints = np.empty((len(ints_names) * n_chop, chopped_data.shape[1])) 
+                ints = np.empty((len(ints_names) * n_chop, chopped_data.shape[1]))
             else:
-                ints = np.empty((len(ints_names) * n_chop, len_int)) 
+                ints = np.empty((len(ints_names) * n_chop, len_int))
 
-        ints[i*n_chop:(i+1)*n_chop, :] = chopped_data
-    
+        ints[i * n_chop : (i + 1) * n_chop, :] = chopped_data
+
     print("shape ints", np.shape(ints))
     times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
     time_strings = np.loadtxt(
@@ -2681,9 +2683,8 @@ def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=Fa
     "WRONG HERE?"
     average_int = np.average(ints, axis=0)
 
-
     start_end = (min(times), max(times))
-    n = len(ints)  
+    n = len(ints)
 
     if return_n and centre_place:
         return average_int, start_end, n, centre_places
@@ -2693,6 +2694,7 @@ def average_ints_in_folder_new(FOLDER, len_int=0, return_n=True, centre_place=Fa
         return average_int, start_end, centre_places
     else:
         return average_int, start_end
+
 
 def find_time(FOLDER):
     times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
@@ -2707,7 +2709,6 @@ def find_time(FOLDER):
     times = [string_to_seconds_bruker(time) for time in time_strings]
     start_end = (min(times), max(times))
     return start_end
-
 
 
 def calibrate_spectrum_with_complex(
@@ -2765,7 +2766,7 @@ def calibrate_spectrum_with_complex(
     L_HBB = planck(wn, temp_HBB)
 
     rad_scene = (spectrum_scene[1, :] / resp) + L_HBB
-    rad_complex = (spectrum_scene[2, :] / resp)
+    rad_complex = spectrum_scene[2, :] / resp
 
     # plt.figure()
     # plt.plot(wn, rad_scene, label='real rad')
@@ -2774,7 +2775,6 @@ def calibrate_spectrum_with_complex(
     # plt.ylim(0, 0.12)
     # plt.legend()
     # plt.show()
-
 
     # Calculate NESR from imaginary part of corrected spectrum
     print("Using old method to calculate NESR - see comment in code")

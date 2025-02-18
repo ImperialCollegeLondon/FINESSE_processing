@@ -118,7 +118,7 @@ for i, index in enumerate(cal_locations):
     print(header)
     data = np.column_stack((wn, resp_temp_unapp))
 
-    centre_HBB = np.argmax(int_HBB) 
+    centre_HBB = np.argmax(int_HBB)
     centre_CBB = np.argmax(int_HBB)
     if centre_HBB - centre_CBB != 0:
         print("Difference between HBB and CBB centrebursts")

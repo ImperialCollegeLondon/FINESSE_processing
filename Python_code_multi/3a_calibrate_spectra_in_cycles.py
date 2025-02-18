@@ -18,9 +18,7 @@ RUN_NAME = "Measurement"
 GUI_DATA_LOCATION = "/disk1/sm4219/WHAFFERS/01_22_13_raw_finesse_test/Vaisala_and_logs/20250122_logfile.txt"
 
 # The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
-INDIVIDUAL_SAVE_LOCATION = (
-    PATH + f"/Processed_Data_test/prepared_individual_ints/"
-)
+INDIVIDUAL_SAVE_LOCATION = PATH + f"/Processed_Data_test/prepared_individual_ints/"
 DATA_LOCATION = PATH + f"/Processed_Data_test/{DATE}/"
 AVERAGED_INT_LOCATION = DATA_LOCATION + "prepared_ints_new/"
 SPECTRUM_LOCATION = DATA_LOCATION + "calibrated_spectra/"
@@ -74,7 +72,7 @@ for i, name in enumerate(int_list_avg):
     CBB_temps.append(CBB_temp)
     CBB_std.append(CBB_std_temp)
 
-print("cal_hbb", HBB_temps, CBB_temps )
+print("cal_hbb", HBB_temps, CBB_temps)
 # print("cal_times", cal_times)
 
 
@@ -84,9 +82,9 @@ FOLDERS.sort()
 
 times_all = []
 for FOLDER in FOLDERS:
-        # int_2d = cal.chop_int(FOLDER, len_int=(57090-178), n_chop=4)
-        start_end_time = cal.find_time(FOLDER)
-        times_all.append(start_end_time)
+    # int_2d = cal.chop_int(FOLDER, len_int=(57090-178), n_chop=4)
+    start_end_time = cal.find_time(FOLDER)
+    times_all.append(start_end_time)
 
 # FOR ANGLES IF WE WANT IT
 times_180 = []
@@ -117,7 +115,7 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
     print(start_end_time[0], "time")
     # Find all indices of angle = 180.0
     if 180.0 in angles_all:
-    # Loop of angles 180
+        # Loop of angles 180
         idx_180 = angles_all.index(180.0)  # First occurrence of 180.0
 
         # Find all index with angles of 270.0 and 225.0
@@ -125,7 +123,7 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
         idx_225s = [i for i, a in enumerate(angles_all) if a == 225.0]
 
         # Find nearest 270.0 and 225.0 (before or after)
-        # Lambda is an anymous function that is taking absolute distance 
+        # Lambda is an anymous function that is taking absolute distance
         idx_270 = min(idx_270s, key=lambda i: abs(i - idx_180), default=None)
         idx_225 = min(idx_225s, key=lambda i: abs(i - idx_180), default=None)
 
@@ -133,10 +131,14 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
             # Get times for 270 and 225 angles
             time_270 = cal.find_time(FOLDERS[idx_270])
             time_225 = cal.find_time(FOLDERS[idx_225])
-            
+
             # Find the index of these times in cal_times which contains the AVERAGED ints
-            idx_time_270 = next((i for i, t in enumerate(cal_times) if time_270 in t), None)
-            idx_time_225 = next((i for i, t in enumerate(cal_times) if time_225 in t), None)
+            idx_time_270 = next(
+                (i for i, t in enumerate(cal_times) if time_270 in t), None
+            )
+            idx_time_225 = next(
+                (i for i, t in enumerate(cal_times) if time_225 in t), None
+            )
 
             if idx_time_270 is not None and idx_time_225 is not None:
                 # Extract HBB_temp and CBB_temp
@@ -145,10 +147,10 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
                 HBB_int_nearest = cal_ints[idx_time_270]
                 CBB_int_nearest = cal_ints[idx_time_225]
 
-                 # **Skip folders where angle is NOT 180**
+                # **Skip folders where angle is NOT 180**
                 if angle != 180.0:
                     continue  # Skip this folder and move to the next
-                
+
                 ints_names = glob(FOLDER + "/*.0")
                 ints_names.sort()
                 centre_places = []
@@ -156,7 +158,7 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
                 # ONLY GOING TO FIRST FILE IN INT NAMES
                 for name in [ints_names[0]]:
                     print("Int name here:", name)
-                    chopped_data = cal.chop_int(name, len_int=(57090-178), n_chop=4)
+                    chopped_data = cal.chop_int(name, len_int=(57090 - 178), n_chop=4)
                     # print("Chopped data", chopped_data, np.shape(chopped_data))
                     # Isolating each of the columns
                     for col_idx in range(chopped_data.shape[0]):  # Number of columns
@@ -168,7 +170,7 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
                         hbb_int_crop = HBB_int_nearest[100:-100]
                         cbb_int_crop = CBB_int_nearest[100:-100]
                         # shift_int_scene =  col_int[100 + shift : - (100 - shift)]
-                        shift_int_scene =  col_int[100:-100]
+                        shift_int_scene = col_int[100:-100]
                         # print("HBB and SCENE", hbb_int_crop, len(hbb_int_crop), shift_int_scene, len(shift_int_scene))
                         # raise(KeyboardInterrupt)
                         # Calibrate the spectrum using the shifted data
@@ -179,16 +181,15 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
                         # plt.plot(cbb_int_crop, label='cbb')
                         # plt.title(shift)
                         # plt.legend()
-                    
-                        (wn,
-                        rad,
-                        rad_complex,
-                        NESR)= cal.calibrate_spectrum_with_complex(
-                            shift_int_scene,
-                            hbb_int_crop,
-                            cbb_int_crop,
-                            HBB_temp_nearest,
-                            CBB_temp_nearest
+
+                        (wn, rad, rad_complex, NESR) = (
+                            cal.calibrate_spectrum_with_complex(
+                                shift_int_scene,
+                                hbb_int_crop,
+                                cbb_int_crop,
+                                HBB_temp_nearest,
+                                CBB_temp_nearest,
+                            )
                         )
 
                         # Create the header with the shift number and other relevant info
@@ -196,7 +197,10 @@ for FOLDER, angle in zip(FOLDERS, angles_all):
                         # NOTE NESR IS COMING OUT AS NANS
                         data_out = np.column_stack((wn, rad))
                         # Save the calibrated spectrum, include the time and shift number in the filename
-                        save_filename = FINAL_CAL_SAVED + f"calibrated_spectrum_{start_end_time[0]}.txt"
+                        save_filename = (
+                            FINAL_CAL_SAVED
+                            + f"calibrated_spectrum_{start_end_time[0]}.txt"
+                        )
                         print(data_out.dtype)
                         np.savetxt(save_filename, data_out, header=header)
                         print("Saved to", save_filename)

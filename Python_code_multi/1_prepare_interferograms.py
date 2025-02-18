@@ -1,7 +1,7 @@
 """
 Prepare interferograms for use in calibration
 Produces interferograms averaged for each scan cycle
-Only Averages hot and cold spectra 
+Only Averages hot and cold spectra
 Skips any other angles
 
 NEED TO: write function that algins, takes output centre bursts and algins ints
@@ -54,10 +54,13 @@ angles = []
 for FOLDER, angle in zip(FOLDERS, angles_all):
     print("angle", angle)
     if angle not in [270.0, 225.0]:
-        continue  
+        continue
     # print(f"Processing {FOLDER} with angle {angle}")
-    int_temp, start_end_temp, n_temp, centre_place_temp = cal.average_ints_in_folder_new(
-        FOLDER, len_int=(57090-178), return_n=True, centre_place=True)
+    int_temp, start_end_temp, n_temp, centre_place_temp = (
+        cal.average_ints_in_folder_new(
+            FOLDER, len_int=(57090 - 178), return_n=True, centre_place=True
+        )
+    )
     ints.append(int_temp)
     times.append(start_end_temp)
     n.append(n_temp)

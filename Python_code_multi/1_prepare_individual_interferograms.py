@@ -20,9 +20,7 @@ GUI_DATA_LOCATION = "/disk1/sm4219/WHAFFERS/01_22_13_raw_finesse_test/Vaisala_an
 
 
 # The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
-INDIVIDUAL_SAVE_LOCATION = (
-    PATH + f"/Processed_Data_test/prepared_individual_ints/"
-)
+INDIVIDUAL_SAVE_LOCATION = PATH + f"/Processed_Data_test/prepared_individual_ints/"
 Path(INDIVIDUAL_SAVE_LOCATION).mkdir(parents=True, exist_ok=True)
 # SAVE_LOACTION = PATH2 + f"Processed_Data_soph_single/"
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
