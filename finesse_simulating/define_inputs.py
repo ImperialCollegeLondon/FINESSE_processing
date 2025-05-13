@@ -5,12 +5,13 @@ lbl_location = "/net/thunder/data1/sp1016/lblrtm_12.17/"
 
 # Specify location to save the output files
 save_location = "/net/thunder/data1/sp1016/FINESSE_LBLRTM/finesse_processing/finesse_simulating/example_output/"
+
 # Specify location of profiles
-profile_folder = "example_output/"
+profile_folder = "example_input/"
 
 # Specify atmospheric profile (note example profile has fummy z variable)
 # See write_tape_5.py instructions for types of atmosphere and setting units
-atmospheric_profile_name = profile_folder + "example_profile"
+atmospheric_profile_name = profile_folder + "example_profile.txt"
 pressure, z, temp, h2o, o3 = np.loadtxt(atmospheric_profile_name, unpack=True)
 
 # Also set yaxis flag to note running in Pressure ('P') or Altitude ('A')
