@@ -8,13 +8,13 @@ Written: 30/04/2025
 """
 import sys
 import sys
-sys.path.insert(1, '/data1/sp1016/FINESSE_LBLRTM/src')
+sys.path.insert(1, 'src')
 from module_function_list import *
 
 # Inputs are specified in define_inputs.py which calls the write_tape5.py script
 
 # Call LBLRTM to run simulation
-# call_lblrtm(lbl_location,save_location,OD)
+call_lblrtm(lbl_location,save_location,OD)
 
 # # Converts the TAPE12 output from a binary file into a numpy array.
 tape12_array = load_tape12(save_location,mode)
@@ -25,7 +25,7 @@ high_res_spec = tape12_array[1,:]
 wn_out, rad_out = process_spectrum_general(high_res_wn,high_res_spec, 0.2,350,1600, 1.21)
 
 # # Apply the FINESSE instrument line shape
-ILS_LOCATION = '/data1/sp1016/FINESSE_LBLRTM/EM27_ILS_test1_3_25.sav'
+ILS_LOCATION = 'EM27_ILS_test1_3_25.sav'
 ils = readsav(ILS_LOCATION)
 ILS = ils['em27_ils'][:]
 apodised_wn, apodised_spectrum = apply_ILS_sav(ILS, wn_out, rad_out, pad_length=10)

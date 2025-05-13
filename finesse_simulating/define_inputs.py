@@ -6,21 +6,15 @@ lbl_location = "/net/thunder/data1/sp1016/lblrtm_12.17/"
 # Specify location to save the output files
 save_location = "/net/thunder/data1/sp1016/FINESSE_LBLRTM/"
 # Specify location of profiles
-profile_folder = "/net/sirocco/disk1/Andoya/sp1016/LBLRTM_SIMULATIONS/ERA5_DATA/"
+profile_folder = ""
 
-# Specify atmospheric profile
+# Specify atmospheric profile (note example profile has fummy z variable)
 # See write_tape_5.py instructions for types of atmosphere and setting units
-atmospheric_profile_name  = profile_folder + "era5_20230221_1600_2100.nc"
-atmos_nc = xr.open_dataset(atmospheric_profile_name)
-atmos_nc=atmos_nc.sel(time=atmos_nc.time.values[1],latitude = atmos_nc.latitude.values[0], longitude=atmos_nc.longitude.values[0])
+atmospheric_profile_name = profile_folder+'example_profile'
+pressure,z,temp,h2o,o3 = np.loadtxt('example_profile.txt',unpack=True)
 
-pressure = np.flip(atmos_nc.level.values)
-temp = np.flip(atmos_nc.t.values)
-h2o = np.flip(atmos_nc.r.values)
-o3 =np.flip( atmos_nc.o3.values )* 1E3
-
-# Load dummy z because running in pressure
-z = np.full_like(pressure,0)
+# Also set yaxis flag to note running in Pressure ('P') or Altitude ('A')
+yaxis_flag='P'
 
 atm = 5  # Sets other gases to standard profiles
 
@@ -63,5 +57,6 @@ write_tape5(
     t5= lbl_location+"/TAPE5",
     h2o_flag = h2o_flag,
     o3_flag=o3_flag,
+    yaxis_flag=yaxis_flag,
     blackbody=h_start_blackbody_surface,
     res=res)
