@@ -110,7 +110,7 @@ Contents include:
 - **run_lblrtm_FINESSE.py** the script to write the TAPE5, run the exe, and apply the FINESSE instrument line shape
 - **/example_input** contains an example profile to be read
 - **/example_output** contains an example output and plot
-- EM27_ILS_test1_3_25.sav is the EM27 ILS used for version 001 of the 2025_WHAFFFERS deliverarables (May 2025)
+- **EM27_ILS_test1_3_25.sav** is the EM27 ILS used for version 001 of the 2025_WHAFFFERS deliverarables (May 2025)
 Required modules are in src/module_function_list.py
 
 ## Credits
