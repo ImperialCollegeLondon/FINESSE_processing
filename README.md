@@ -104,6 +104,7 @@ This contains the code to run LBLRTM simulations of FINESSE spectra which is sep
 Code is based on work done by Laura Warwick, Sophie Mosselmans, and Sanjeevani Panditharatne.
 
 Contents include:
+
 - src folder that includes functions and modules used to interact with LBLRTM outputs which should not need to be edited
 - define_inputs.py which is used to input profile variables, input and output paths, and specify lblrtm version
 - run_lblrtm_FINESSE.py the script to write the TAPE5, run the exe, and apply the FINESSE instrument line shape

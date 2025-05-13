@@ -1,19 +1,22 @@
-"""     CALL_LBLRTM
+"""CALL_LBLRTM
 
-        Functions to run the LBLRTM executable and read TAPE12 output
+Functions to run the LBLRTM executable and read TAPE12 output
 
 """
-from module_function_list import *
+
 import panel_file as panpy
+from module_function_list import *
 
 
 # This class allows you to change the current working
-# directory as you would in linux. IT is needed to run 
+# directory as you would in linux. IT is needed to run
 # LBLRTM later on. You coud probably
 # do this yourself using os if you prefered
 class cd:
     """Context manager for changing the current working directory
-    from https://stackoverflow.com/questions/431684/how-do-i-change-directory-cd-in-python/13197763#13197763"""
+    from https://stackoverflow.com/questions/431684/how-do-i-change-directory-cd-in-python/13197763#13197763
+    """
+
     def __init__(self, newPath):
         self.newPath = os.path.expanduser(newPath)
 
@@ -24,7 +27,8 @@ class cd:
     def __exit__(self, etype, value, traceback):
         os.chdir(self.savedPath)
 
-def call_lblrtm(lbl_location,save_location,OD):
+
+def call_lblrtm(lbl_location, save_location, OD):
     """Runs the LBLRTM executable
 
     Args:
@@ -53,7 +57,8 @@ def call_lblrtm(lbl_location,save_location,OD):
                 os.rename(o_file, save_location + o_file)
     return
 
-def load_tape12(save_location,mode):
+
+def load_tape12(save_location, mode):
     """Load the TAPE12 (that is in binary format) into a numpy array
 
     Args:
@@ -61,18 +66,18 @@ def load_tape12(save_location,mode):
         mode (int): see write_tape5.py: 0 - radiances only 1- radiances and transmittances
     Returns:
         tape12_array (array): first column is the wavenumber and second is radiances (optionally) transmittance is third
-    
+
     Author: Sanjeevani Panditharatne (based on LW + SM script)
     """
-    print('==== Loading TAPE12 as Numpy Array ====')
-    panel_data = panpy.panel_file(save_location+'TAPE12', do_load_data = True)
-    if mode==1:
+    print("==== Loading TAPE12 as Numpy Array ====")
+    panel_data = panpy.panel_file(save_location + "TAPE12", do_load_data=True)
+    if mode == 1:
         rad_in_raw = panel_data.data1
         wn_in_raw = panel_data.v
         tape12_array = np.vstack([wn_in_raw, rad_in_raw])
-    elif mode ==0:
+    elif mode == 0:
         trans_in_raw = panel_data.data1
         rad_in_raw = panel_data.data1
         wn_in_raw = panel_data.v
-        tape12_array = np.vstack([wn_in_raw, rad_in_raw,trans_in_raw])
+        tape12_array = np.vstack([wn_in_raw, rad_in_raw, trans_in_raw])
     return tape12_array

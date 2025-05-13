@@ -1,13 +1,14 @@
-"""     APPLY_ILS_FUNCTION (FINESSE)
+"""APPLY_ILS_FUNCTION (FINESSE)
 
-        A boxcar is first appleid to a high resolution spectrum using the general function process_spectrum_general.
-        FINESSE has an OPD of 1.21
-        The instrument line shape is then applied using apply_ILS_sav.
-    
-    Author: Sanjeevani Panditharatne
+A boxcar is first appleid to a high resolution spectrum using the general function process_spectrum_general.
+FINESSE has an OPD of 1.21
+The instrument line shape is then applied using apply_ILS_sav.
+
+Author: Sanjeevani Panditharatne
 """
 
 from module_function_list import *
+
 
 def process_spectrum_general(
     frequency,
@@ -19,9 +20,8 @@ def process_spectrum_general(
     apodisation_func=False,
     test_delta=False,
 ):
-    """
-    Apply the optical path difference to a spectrum using a boxcar function or a triangle apodisation function to a high resolution spectrum.
-    Formerly called apodised_spectrum. 
+    """Apply the optical path difference to a spectrum using a boxcar function or a triangle apodisation function to a high resolution spectrum.
+    Formerly called apodised_spectrum.
     Name changed to avoid confusion for FINESSE which requires a spectrally depdendent ILS applied.
 
     Adapted from apodise_spectra_boxcar_v1.pro
@@ -59,7 +59,7 @@ def process_spectrum_general(
         function in the case of a boxcar
         If False input spectrum is used
 
-    Returns
+    Returns:
     -------
     wn array
         Wavenumber of apodised spectrum (cm^-1)
@@ -122,9 +122,9 @@ def process_spectrum_general(
 
     # The following two lines reduce the output spectra to a sampling grid of 0.01 cm-1
     # while copying in the truncated interferogram from the high resolution interferogram
-    int_1[0 : int(round((samples / 2)))] = int_2[0 : int(round((samples / 2)))]
-    int_1[int(round((samples / 2))) : samples] = int_2[
-        (dum_samples) - int(round((samples / 2))) : dum_samples
+    int_1[0 : int(round(samples / 2))] = int_2[0 : int(round(samples / 2))]
+    int_1[int(round(samples / 2)) : samples] = int_2[
+        (dum_samples) - int(round(samples / 2)) : dum_samples
     ]
 
     if apodisation_func == "triangle":
@@ -154,6 +154,7 @@ def process_spectrum_general(
     apodised_spectra = np.real(new_lbl_spec / (fre_grid / dum_new_res))
     return new_fre, apodised_spectra
 
+
 def apply_ILS_sav(ILS, wn, spectrum, pad_length=10):
     """Apply ILS to a spectrum
 
@@ -167,13 +168,32 @@ def apply_ILS_sav(ILS, wn, spectrum, pad_length=10):
             section to remove edge effects. Expressed in units of
             wavenumber
     """
+    print("========== Applying OPD ==========")
 
-    print('========== Applying OPD ==========')
-
-    # Here I have redefined the start and end fre such that it is an array, to get the bins 
+    # Here I have redefined the start and end fre such that it is an array, to get the bins
     # the function requires the inputs start_fre and end_fre to be arrays of wavenumber rather than float values
-    start_fre=np.array([360.0,450.0,560.0,630.0,730.0,850.0,950.0,1050.0,1150.0,1250.0,1360.0,1450.0,1550.0,1650.0,1750.0,1800.0,1900.0]) 
-    end_fre=np.append(start_fre[1:],1950.0)
+    start_fre = np.array(
+        [
+            360.0,
+            450.0,
+            560.0,
+            630.0,
+            730.0,
+            850.0,
+            950.0,
+            1050.0,
+            1150.0,
+            1250.0,
+            1360.0,
+            1450.0,
+            1550.0,
+            1650.0,
+            1750.0,
+            1800.0,
+            1900.0,
+        ]
+    )
+    end_fre = np.append(start_fre[1:], 1950.0)
 
     # Specify frequency scale of ILS
     ILS_frequency_scale = np.linspace(-5, 5, np.shape(ILS)[0])
@@ -190,9 +210,9 @@ def apply_ILS_sav(ILS, wn, spectrum, pad_length=10):
             )
         )
         wn_now = wn[index]
-        if len(index[0])>0:
+        if len(index[0]) > 0:
             spectrum_now = spectrum[index]
-            # Interpolate ILS onto frequency of signal COMMENT OUT LINES BELOW 
+            # Interpolate ILS onto frequency of signal COMMENT OUT LINES BELOW
             ILS_frequency_scale_interp = np.arange(-5, 5, np.average(np.diff(wn_now)))
             ils_now_interp = np.interp(
                 ILS_frequency_scale_interp, ILS_frequency_scale, ILS[:, i]
@@ -226,6 +246,7 @@ def apply_ILS_sav(ILS, wn, spectrum, pad_length=10):
             continue
     return wn_all, spectrum_all
 
+
 def apply_ILS_nc(ILS_nc_path, wn, spectrum, pad_length=10):
     """Apply ILS to a spectrum but load it from netcdf file
 
@@ -237,7 +258,7 @@ def apply_ILS_nc(ILS_nc_path, wn, spectrum, pad_length=10):
             section to remove edge effects. Expressed in units of
             wavenumber
     """
-    print('========== Applying FINESSE ILS ==========')
+    print("========== Applying FINESSE ILS ==========")
 
     # Load netcdf file
     ILS_ncdf = xr.open_dataset(ILS_nc_path)
@@ -262,7 +283,7 @@ def apply_ILS_nc(ILS_nc_path, wn, spectrum, pad_length=10):
         )
         wn_now = wn[index]
         spectrum_now = spectrum[index]
-        # Interpolate ILS onto frequency of signal COMMENT OUT LINES BELOW 
+        # Interpolate ILS onto frequency of signal COMMENT OUT LINES BELOW
         ILS_frequency_scale_interp = np.arange(-5, 5, np.average(np.diff(wn_now)))
         ils_now_interp = np.interp(
             ILS_frequency_scale_interp, ILS_frequency_scale, ILS[:, i]
