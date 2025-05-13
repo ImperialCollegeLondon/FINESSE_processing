@@ -97,6 +97,19 @@ The `pre-commit` hooks will also be run on every pull request by [pre-commit.ci]
 This will eventually contain all the functions needed to run the processing code.
 We will then reach out about how to better package these in the end of November 2024
 
+# `finesse_simulating` folder
+
+This contains the code to run LBLRTM simulations of FINESSE spectra which is separate from the processing code to read and calibrated FINESSE interferograms.
+
+Code is based on work done by Laura Warwick, Sophie Mosselmans, and Sanjeevani Panditharatne.
+
+Contents include:
+- src folder that includes functions and modules used to interact with LBLRTM outputs which should not need to be edited
+- define_inputs.py which is used to input profile variables, input and output paths, and specify lblrtm version
+- run_lblrtm_FINESSE.py the script to write the TAPE5, run the exe, and apply the FINESSE instrument line shape
+
+Required modules are in src/module_function_list.py
+
 ## Credits
 
 This package was created with [Copier](https://github.com/copier-org/copier) and the [NLeSC/python-template](https://github.com/NLeSC/python-template).
