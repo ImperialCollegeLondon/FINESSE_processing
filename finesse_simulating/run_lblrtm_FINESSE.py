@@ -40,6 +40,6 @@ apodised_spectrum_mW = apodised_spectrum * 1e6
 plt.plot(apodised_wn, apodised_spectrum_mW)
 plt.xlabel("Wavenumber (cm$^{-1}$)")
 plt.ylabel("Radiance (mW m$^{-2}$ sr$^{-1}$ cm)")
-plt.savefig("Output_Plot.jpg", dpi=300)
+plt.savefig(save_location+"Output_Plot.jpg", dpi=300)
 
 print("========== END ==========")

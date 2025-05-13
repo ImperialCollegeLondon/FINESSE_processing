@@ -1,6 +1,6 @@
 """APPLY_ILS_FUNCTION (FINESSE)
 
-A boxcar is first appleid to a high resolution spectrum using the general function process_spectrum_general.
+A boxcar is first applied to a high resolution spectrum using the general function process_spectrum_general.
 FINESSE has an OPD of 1.21
 The instrument line shape is then applied using apply_ILS_sav.
 
