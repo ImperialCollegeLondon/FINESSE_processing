@@ -105,11 +105,11 @@ Code is based on work done by Laura Warwick, Sophie Mosselmans, and Sanjeevani P
 
 Contents include:
 
-- src folder that includes functions and modules used to interact with LBLRTM outputs which should not need to be edited
-- define_inputs.py which is used to input profile variables, input and output paths, and specify lblrtm version
-- run_lblrtm_FINESSE.py the script to write the TAPE5, run the exe, and apply the FINESSE instrument line shape
-- example_input contains an example profile to be read
-- example_output contains an example output and plot
+- **/src** folder that includes functions and modules used to interact with LBLRTM outputs which should not need to be edited
+- **define_inputs.py** which is used to input profile variables, input and output paths, and specify lblrtm version
+- **run_lblrtm_FINESSE.py** the script to write the TAPE5, run the exe, and apply the FINESSE instrument line shape
+- **/example_input** contains an example profile to be read
+- **/example_output** contains an example output and plot
 - EM27_ILS_test1_3_25.sav is the EM27 ILS used for version 001 of the 2025_WHAFFFERS deliverarables (May 2025)
 Required modules are in src/module_function_list.py
 
