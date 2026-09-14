@@ -4,10 +4,10 @@
  HIRAC    LBLF4    FRGNX    CNTNM    AERSL    EMISS    SCNFN    FILTR     PLOT     TEST     IATM     IMRG     ILAS    OPDEP    XSECT   ISOTPL     IBRD
     1        1        C        1        0        1        2        0        0        0        1        0        0        0        0        0        0
 0
-0                       LINE FILE INFORMATION 
+0                       LINE FILE INFORMATION
 0$ f100 format                                           V:                     I   22/12/09   9:20:33
 0
-                       COUPLED    NLTE   SUM LBLRTM 
+                       COUPLED    NLTE   SUM LBLRTM
        MOL     LINES    LINES    LINES    STRENGTHS
 
        H2O  =  34223        0        0    8.9640E-19
@@ -59,8 +59,8 @@
        SO3  =  12768        0        0    5.1624E-20
 
 0 LOWEST LINE =      0.000       HIGHEST LINE =   2500.000      TOTAL NUMBER OF LINES = 7264706
-                                                                                                                        
-                                                                                 Most recent significant change         
+
+                                                                                 Most recent significant change
                          H2O  AIR        4000 - 20000 CM-1              mt_ckd_4.3 - adjustments in windows   (Feb 2024)
                               SELF        600 -  1400 CM-1              mt_ckd_4.2 - adjustment in IR window  (Dec 2023)
                               SELF  (T)   600 -  1400 CM-1              mt_ckd_4.2 - adjustment in IR window  (Dec 2023)
@@ -75,17 +75,17 @@
                               AIR        9100 - 11000 CM-1              ckd_2.4.1  - Mlawer et al.            (Aug 1999)
                               AIR       12950 - 13220 CM-1 A-band       mt_ckd_3.4 - Mlawer                   (May 2020)
                               O2        15000 - 29870 CM-1              ckd_2.4.2  - Greenblatt et al.        (May 2000)
-                              O2/N2     36000 -  >>>> CM-1 HERZBERG     ckd_0                                           
+                              O2/N2     36000 -  >>>> CM-1 HERZBERG     ckd_0
                               AIR       55000 - 87000 CM-1 FAR-UV       mt_ckd_3.3 - Lu et al.                (Aug 2018)
                          O3   AIR   (T)  9170 - 24565 CM-1 CHAPP/WULF   ckd_2.2                               (Feb 1996)
-                                    (T) 27370 - 40800 CM-1 HARTL/HUGG   ckd_0                                           
-                                        40800 - 54000 CM-1 HARTL/HUGG   ckd_0                                           
-                                                                                                                        
-                                                                                                                        
-                                                                                                                        
-                                                                                                                        
-Continuum    LBL_n                      Description of Modification                                            Date     
----------    -----                    -------------------------------                                          ----     
+                                    (T) 27370 - 40800 CM-1 HARTL/HUGG   ckd_0
+                                        40800 - 54000 CM-1 HARTL/HUGG   ckd_0
+
+
+
+
+Continuum    LBL_n                      Description of Modification                                            Date
+---------    -----                    -------------------------------                                          ----
                     H2O SELF HAS BEEN REDUCED IN THE 800-1200 CM-1 REGION                                  (01 SEP 1985)
                     03       TEMPERATURE DEPENDENCE HAS BEEN CORRECTED                                     (01 MAY 1987)
                     02       (1390-1760) HAS BEEN REDUCED (FACTOR = 0.78)                                  (07 MAR 1990)
@@ -100,7 +100,7 @@ Continuum    LBL_n                      Description of Modification             
  ckd_2.4.1    5.12  O2 COLLISION INDUCED FUNDAMENTAL BAND (1340-1850 CM-1) CHANGED TO THIBAULT ET AL., 1996   (MAR 1998)
      "              N2 COLLISION INDUCED FUNDAMENTAL BAND (2085-2670 CM-1) CHANGED TO LAFFERTY ET AL., 1996   (MAR 1998)
      "              H2O FOREIGN HAS BEEN MODIFIED IN THE 0-800 CM-1 AND 1200-2200 CM-1 RANGE BASED ON      (04 JUN 1999)
-     "                       AERI-ER FROM SHEBA, TOBIN ET AL., 1998                                                     
+     "                       AERI-ER FROM SHEBA, TOBIN ET AL., 1998
      "              H2O SELF HAS BEEN INCREASED IN THE 0-200 CM-1 REGION                                   (04 JUN 1999)
      "              O2 COLLISION INDUCED BAND HAS BEEN ADDED  (9100 - 11000 CM-1); MLAWER ET AL. 1998      (16 AUG 1999)
      "              O2 COLLISION INDUCED BAND HAS BEEN CHANGED (7555 - 8486 CM-1); MATE ET AL. 1999        (10 FEB 2000)
@@ -119,8 +119,8 @@ Continuum    LBL_n                      Description of Modification             
  mt_ckd_2.3  11.5   Bug fix: corrects error in which Analytic Derivative result depends on starting wavenumber(Aug 2008)
  mt_ckd_2.4  11.6   H2O: modification to self and foreign continuum (microwave and IR ARM data 0-600 cm-1)    (Nov 2008)
  mt_ckd_2.5  11.7   CO2: modification from 2000-3200 cm-1 (AERI(ARM),IASI AIRS measurements); Temp. dep. added(Jan 2010)
-     "              H2O: modification to self cont. 2000-3000 cm-1   (IASI data, fit to near-IR results of              
-     "              Bicknell et al., 2006 and Fulghum and Tilleman,  1991                                               
+     "              H2O: modification to self cont. 2000-3000 cm-1   (IASI data, fit to near-IR results of
+     "              Bicknell et al., 2006 and Fulghum and Tilleman,  1991
  mt_ckd_2.5.1 11.8  Updated common block for constants                                                        (May 2010)
  mt_ckd_2.5.2 12.0  Minor bug fixes, updated continuum summary info,  made consistent with monortm contnm.f   (Jan 2011)
  mt_ckd_2.5.3  -    Cosmetic changes                                                                          (Mar 2015)
@@ -133,8 +133,8 @@ Continuum    LBL_n                      Description of Modification             
  mt_ckd_3.3  12.9   O2 Far-UV: 55000-87000 cm-1 from Lu et al. (2010)                                         (Aug 2018)
  mt_ckd_3.4  12.10  O2 A-band: Mlawer re-analysis of TCCON FTS measurements consistent with OCO-2 ABSCO 5.1   (May 2020)
  mt_ckd_3.5  12.11  H2O self: MW - Payne et al. 2021 MWR study, FIR - Odintsova et al. 2020; self T: MW -     (Oct 2020)
-     "              Payne et al., Katkov et al. 1995, and Tretyakov et al. 2016, FIR - Odintsova et al. and             
-     "              Burch/Grynvak 1979, IR - Burch/Alt 1984 and Burch/Grynvak; H2O foreign: MW - Payne et al.           
+     "              Payne et al., Katkov et al. 1995, and Tretyakov et al. 2016, FIR - Odintsova et al. and
+     "              Burch/Grynvak 1979, IR - Burch/Alt 1984 and Burch/Grynvak; H2O foreign: MW - Payne et al.
  mt_ckd_3.6  12.13  Water vapor self continuum temperature dependence computed as a power law (Mlawer, Mascio)(Jun 2022)
  mt_ckd_4.0  12.14  Water vapor continuum code/data now external (Cady-Pereira/Mlawer)                        (Sep 2022)
  mt_ckd_4.0.1  -    Added changes to handle negative frequencies for water vapor continuum                    (Nov 2022)
@@ -143,7 +143,7 @@ Continuum    LBL_n                      Description of Modification             
  mt_ckd_4.2  12.16  IR window: Derived from AERI - Self, frgn, self T-dep; alt. frgn; Mlawer/Mascio/Turner    (Dec 2023)
  mt_ckd_4.3  12.17  New foreign coefficients in window regions > 4000 cm-1 based on U. Grenoble lab studies   (Feb 2024)
 
-  The continuum scale factors are as follows: 
+  The continuum scale factors are as follows:
      H2O Self:         1.000
      H2O Foreign:      1.000
      CO2:              1.000
@@ -167,7 +167,7 @@ Continuum    LBL_n                      Description of Modification             
 
 
 
- CONTROL CARD 3.1: MODEL AND OPTIONS 
+ CONTROL CARD 3.1: MODEL AND OPTIONS
 
           MODEL   =     0
           ITYPE   =     2
@@ -531,8 +531,8 @@ Continuum    LBL_n                      Description of Modification             
 
 
     I  LAYER BOUNDARIES                               INTEGRATED AMOUNTS (MOL CM-2)
-          FROM       TO     AIR       H2O       CO2        O3       N2O        CO       CH4        O2        NO   
-          (KM)      (KM)                SO2       NO2       NH3      HNO3        OH        HF   
+          FROM       TO     AIR       H2O       CO2        O3       N2O        CO       CH4        O2        NO
+          (KM)      (KM)                SO2       NO2       NH3      HNO3        OH        HF
     1     0.000     0.201 5.305E+23 2.069E+21 1.744E+20 0.000E+00 1.691E+17 7.876E+16 8.983E+17 1.104E+23 1.585E+14
                                     1.564E+14 1.215E+13 2.655E+14 2.740E+13 2.325E+10 5.256E+09
     2     0.201     0.406 5.305E+23 2.109E+21 1.744E+20 0.000E+00 1.691E+17 7.825E+16 8.983E+17 1.104E+23 1.585E+14
@@ -632,8 +632,8 @@ Continuum    LBL_n                      Description of Modification             
             LAYER     I I
    L     BOUNDARIES   T P     PBAR     TBAR                          INTEGRATED AMOUNTS (MOLS CM-2)
         FROM     TO   Y T
-        (KM)    (KM)  P H     (MB)      (K)         AIR            H2O            CO2             O3            N2O             CO            CH4             O2          OTHER   
-                                                                    NO            SO2            NO2            NH3           HNO3             OH             HF   
+        (KM)    (KM)  P H     (MB)      (K)         AIR            H2O            CO2             O3            N2O             CO            CH4             O2          OTHER
+                                                                    NO            SO2            NO2            NH3           HNO3             OH             HF
 0  1   0.000   0.201    3  987.49314  270.44   5.3049984E+23  2.0692819E+21  1.7438167E+20  0.0000000E+00  1.6909738E+17  7.8760852E+16  8.9832982E+17  1.1044173E+23  4.1781330E+23
                                                               1.5852879E+14  1.5642480E+14  1.2153874E+13  2.6546645E+14  2.7396987E+13  2.3250889E+10  5.2559678E+09
 *** WARNING: Zeroing molecule #03 amount in layer #001
@@ -749,8 +749,8 @@ Continuum    LBL_n                      Description of Modification             
             LAYER     I I
    L     BOUNDARIES   T P     PBAR     TBAR                        MOLECULAR MIXING RATIOS BY LAYER
         FROM     TO   Y T
-        (KM)    (KM)  P H     (MB)      (K)         AIR            H2O            CO2             O3            N2O             CO            CH4             O2          OTHER   
-                                                                    NO            SO2            NO2            NH3           HNO3             OH             HF   
+        (KM)    (KM)  P H     (MB)      (K)         AIR            H2O            CO2             O3            N2O             CO            CH4             O2          OTHER
+                                                                    NO            SO2            NO2            NH3           HNO3             OH             HF
 0  1   0.000   0.201    3  987.49314  270.44   5.3049984E+23  3.9159013E-03  3.2999922E-04  0.0000000E+00  3.1999924E-07  1.4904674E-07  1.6999960E-06  2.0899950E-01  4.1781330E+23
                                                               2.9999929E-10  2.9601771E-10  2.2999946E-11  5.0236770E-10  5.1845956E-11  4.3999896E-14  9.9463737E-15
 0  2   0.201   0.406    3  962.49064  269.39   5.3054878E+23  3.9911859E-03  3.2999975E-04  0.0000000E+00  3.1999976E-07  1.4808178E-07  1.6999987E-06  2.0899984E-01  4.1782034E+23
@@ -829,8 +829,8 @@ Continuum    LBL_n                      Description of Modification             
 0
 0  L  PATH BOUNDARIES      PBAR     TBAR                        ACCUMULATED MOLECULAR AMOUNTS FOR TOTAL PATH
         FROM     TO
-        (KM)    (KM)       (MB)      (K)      AIR        H2O       CO2        O3       N2O        CO       CH4        O2     OTHER   
-                                                          NO       SO2       NO2       NH3      HNO3        OH        HF   
+        (KM)    (KM)       (MB)      (K)      AIR        H2O       CO2        O3       N2O        CO       CH4        O2     OTHER
+                                                          NO       SO2       NO2       NH3      HNO3        OH        HF
 0 36   0.000  45.664    500.02879  238.48  2.122E+25 1.759E+22 6.997E+21 0.000E+00 6.355E+18 2.389E+18 3.368E+19 4.431E+24 1.676E+25
                                                      7.812E+15 2.979E+15 5.014E+15 4.823E+15 8.930E+15 2.535E+13 2.229E+14
 1
@@ -885,7 +885,7 @@ Continuum    LBL_n                      Description of Modification             
 0   36 40.864 TO 45.664 KM  1.5014745E+00  233.29 0.000067 0.000866 0.000900 0.072 0.000225  1.0000 0.000225  1.202    5    3    1.000000
 1
 0  TAPE5 generated by write_tape5 in write_tape5.py                       LBLRTM    25/13/05  16:48:48
-0                                                     MOLECULAR AMOUNTS (MOL/CM**2) BY LAYER 
+0                                                     MOLECULAR AMOUNTS (MOL/CM**2) BY LAYER
                                 P(MB)      T(K)   IPATH         H2O           CO2            O3           N2O            CO           CH4            O2            OTHER
 0  1  0.000 TO  0.201 KM    987.4931439   270.44    3    2.0692819E+21  1.7438167E+20  0.0000000E+00  1.6909738E+17  7.8760852E+16  8.9832982E+17  1.1044173E+23  4.1781330E+23
 0  2  0.201 TO  0.406 KM    962.4906424   269.39    3    2.1091010E+21  1.7438496E+20  0.0000000E+00  1.6910057E+17  7.8252288E+16  8.9834677E+17  1.1044381E+23  4.1782034E+23
@@ -927,8 +927,8 @@ Continuum    LBL_n                      Description of Modification             
 0 36  0.000 TO 45.664 KM    500.0287901   238.48         1.7590486E+22  6.9966241E+21  0.0000000E+00  6.3548264E+18  2.3889411E+18  3.3680256E+19  4.4311953E+24  1.6763768E+25
 1
 0  TAPE5 generated by write_tape5 in write_tape5.py                       LBLRTM    25/13/05  16:48:48
-0                                                     MOLECULAR AMOUNTS (MOL/CM**2) BY LAYER 
-                                P(MB)      T(K)   IPATH          NO           SO2           NO2           NH3          HNO3            OH            HF   
+0                                                     MOLECULAR AMOUNTS (MOL/CM**2) BY LAYER
+                                P(MB)      T(K)   IPATH          NO           SO2           NO2           NH3          HNO3            OH            HF
 0  1  0.000 TO  0.201 KM    987.4931439   270.44    3    1.5852879E+14  1.5642480E+14  1.2153874E+13  2.6546645E+14  2.7396987E+13  2.3250889E+10  5.2559678E+09
 0  2  0.201 TO  0.406 KM    962.4906424   269.39    3    1.5853178E+14  1.5404799E+14  1.2154103E+13  2.6618628E+14  2.8382126E+13  2.3251328E+10  5.2317658E+09
 0  3  0.406 TO  0.615 KM    937.4884969   268.04    3    1.5857183E+14  1.5134370E+14  1.2157174E+13  2.6631939E+14  2.9401811E+13  2.3257202E+10  5.2222985E+09
@@ -969,7 +969,7 @@ Continuum    LBL_n                      Description of Modification             
 0 36  0.000 TO 45.664 KM    500.0287901   238.48         7.8119269E+15  2.9791762E+15  5.0141435E+15  4.8234931E+15  8.9297646E+15  2.5353860E+13  2.2285993E+14
 
 1                                                      ----------------------------------
-0                                                            MIXING RATIOS BY LAYER 
+0                                                            MIXING RATIOS BY LAYER
                                 P(MB)      T(K)   IPATH         H2O           CO2            O3           N2O            CO           CH4            O2            OTHER
 0  1  0.000 TO  0.201 KM    987.4931439   270.44    3    3.9159013E-03  3.2999922E-04  0.0000000E+00  3.1999924E-07  1.4904674E-07  1.6999960E-06  2.0899950E-01  4.1781330E+23
 0  2  0.201 TO  0.406 KM    962.4906424   269.39    3    3.9911859E-03  3.2999975E-04  0.0000000E+00  3.1999976E-07  1.4808178E-07  1.6999987E-06  2.0899984E-01  4.1782034E+23
@@ -1011,8 +1011,8 @@ Continuum    LBL_n                      Description of Modification             
 0  TAPE5 generated by write_tape5 in write_tape5.py                       LBLRTM    25/13/05  16:48:48
 
 1                                                      ----------------------------------
-0                                                            MIXING RATIOS BY LAYER 
-                                P(MB)      T(K)   IPATH          NO           SO2           NO2           NH3          HNO3            OH            HF   
+0                                                            MIXING RATIOS BY LAYER
+                                P(MB)      T(K)   IPATH          NO           SO2           NO2           NH3          HNO3            OH            HF
 0  1  0.000 TO  0.201 KM    987.4931439   270.44    3    2.9999929E-10  2.9601771E-10  2.2999946E-11  5.0236770E-10  5.1845956E-11  4.3999896E-14  9.9463737E-15
 0  2  0.201 TO  0.406 KM    962.4906424   269.39    3    2.9999977E-10  2.9151480E-10  2.2999982E-11  5.0372123E-10  5.3709301E-11  4.3999966E-14  9.9004030E-15
 0  3  0.406 TO  0.615 KM    937.4884969   268.04    3    2.9999877E-10  2.8632401E-10  2.2999906E-11  5.0384414E-10  5.5624678E-11  4.3999819E-14  9.8799585E-15
@@ -1080,7 +1080,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    1
 0 INPUT FILE =   10 OUTPUT FILE =   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
  TIME REQUIRED FOR --EMINIT--      0.003 --EMIN--      0.002
 1
 0 LAYER =        2
@@ -1113,7 +1113,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    2
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        1.017
        0.002 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.002 - READ -        0.000 - EMOUT -        0.000
 1
@@ -1147,7 +1147,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    3
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        1.520
        0.002 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.002 - READ -        0.000 - EMOUT -        0.000
 1
@@ -1181,7 +1181,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    4
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        2.013
        0.003 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.002 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1215,7 +1215,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    5
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        2.503
        0.003 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.002 - READ -        0.000 - EMOUT -        0.000
 1
@@ -1249,7 +1249,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    6
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        3.007
        0.003 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.002 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1283,7 +1283,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    7
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        3.500
        0.003 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.002 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1317,7 +1317,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    8
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        4.001
        0.005 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.003 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1351,7 +1351,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER    9
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        4.508
        0.004 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.003 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1385,7 +1385,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   10
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        5.023
        0.004 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.003 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1419,7 +1419,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   11
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        5.537
        0.004 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.003 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1453,7 +1453,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   12
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        6.052
        0.005 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.003 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1487,7 +1487,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   13
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        6.535
        0.005 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.003 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1521,7 +1521,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   14
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        7.031
        0.005 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.004 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1555,7 +1555,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   15
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        7.541
        0.006 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.004 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1589,7 +1589,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   16
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        8.041
        0.005 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.003 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1623,7 +1623,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   17
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        8.539
        0.008 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.005 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1657,7 +1657,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   18
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        9.042
        0.005 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.004 - READ -        0.000 - EMOUT -        0.001
 1
@@ -1691,7 +1691,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   19
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS        9.566
        0.009 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.006 - READ -        0.001 - EMOUT -        0.001
 1
@@ -1725,7 +1725,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   20
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       10.081
        0.009 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.006 - READ -        0.001 - EMOUT -        0.001
 1
@@ -1759,7 +1759,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   21
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       10.629
        0.010 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.007 - READ -        0.001 - EMOUT -        0.002
 1
@@ -1792,7 +1792,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   22
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       11.206
        0.012 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.008 - READ -        0.001 - EMOUT -        0.002
 1
@@ -1826,7 +1826,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   23
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       11.772
        0.017 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.011 - READ -        0.001 - EMOUT -        0.003
 1
@@ -1860,7 +1860,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   24
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       12.352
        0.014 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.010 - READ -        0.001 - EMOUT -        0.002
 1
@@ -1893,7 +1893,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   25
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       12.974
        0.024 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.017 - READ -        0.001 - EMOUT -        0.004
 1
@@ -1927,7 +1927,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   26
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       13.596
        0.021 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.015 - READ -        0.002 - EMOUT -        0.003
 1
@@ -1960,7 +1960,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   27
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       14.298
        0.032 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.022 - READ -        0.002 - EMOUT -        0.005
 1
@@ -1993,7 +1993,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   28
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       15.028
        0.043 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.029 - READ -        0.003 - EMOUT -        0.007
 1
@@ -2026,7 +2026,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   29
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       15.867
        0.068 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.046 - READ -        0.004 - EMOUT -        0.011
 1
@@ -2059,7 +2059,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   30
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       16.783
        0.085 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.058 - READ -        0.006 - EMOUT -        0.014
 1
@@ -2092,7 +2092,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   31
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       17.888
        0.124 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.085 - READ -        0.007 - EMOUT -        0.021
 1
@@ -2125,7 +2125,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   32
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       18.997
        0.124 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.085 - READ -        0.010 - EMOUT -        0.020
 1
@@ -2158,7 +2158,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   33
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       20.099
        0.119 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.081 - READ -        0.010 - EMOUT -        0.020
 1
@@ -2191,7 +2191,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   34
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       21.197
        0.121 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.083 - READ -        0.010 - EMOUT -        0.020
 1
@@ -2224,7 +2224,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   35
 0 FILE    10 MERGED WITH FILE    12 ONTO FILE   11
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       22.299
        0.122 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.083 - READ -        0.010 - EMOUT -        0.020
 1
@@ -2263,7 +2263,7 @@ Using MT_CKD                                      
 0 INITIAL LAYER    1  FINAL LAYER   36
 0 FILE    10 MERGED WITH FILE    11 ONTO FILE   12
 0 IPATHL AND IANT    3    0
-0EMISSION AND TRANSMISSION  (MOLECULAR) 
+0EMISSION AND TRANSMISSION  (MOLECULAR)
 0 THE TIME AT THE END OF RADMRG IS       23.520
        0.153 SECS WERE REQUIRED FOR THIS MERGE  - EMIN -        0.097 - READ -        0.010 - EMOUT -        0.032
      V1=    0.00000000 V2=    0.00000000 DVO=  0.500000E-01 NUM=       1
@@ -2301,7 +2301,7 @@ Using MT_CKD                                      
          HF =  2.229E+14
      IEMIT=    1 JEMIT=    0 JTREM=    2
      INPUT FILE NUMBER = 12 ,IFILST =   1 ,NIFILS =  99,JEMIT = 0 ,JABS = 0
-0 ********** FIRST VALUE USED ON IFILE; CHECK IFILE 
+0 ********** FIRST VALUE USED ON IFILE; CHECK IFILE
 
      SUMOUT = 0.000000000E+00  MIN = 1.000000000E+15  MAX =-1.000000000E+00
 
@@ -2341,8 +2341,8 @@ Using MT_CKD                                      
          HF =  2.229E+14
      IEMIT=    1 JEMIT=    1 JTREM=    1
      INPUT FILE NUMBER = 12 ,IFILST =   1 ,NIFILS =  99,JEMIT = 1 ,JABS = 0
-0 ********** FIRST VALUE USED ON IFILE; CHECK IFILE 
-0 ********** END OF FILE ENCOUNTERED; CHECK IFILE 
+0 ********** FIRST VALUE USED ON IFILE; CHECK IFILE
+0 ********** END OF FILE ENCOUNTERED; CHECK IFILE
 
      SUMOUT = 4.959658113E-03  MIN = 3.843380678E-08  MAX = 1.129595016E-05
 
@@ -2355,10 +2355,9 @@ Using MT_CKD                                      
 0 Modules and versions used in this calculation:
 
               lblrtm.f:  $Revision$                           contnm.f:  $Revision: 32919 $
-              fftscn.f:     NOT USED                          lblatm.f:  $Revision$        
-              lbllow.f:     NOT USED                         ncargks.f:     NOT USED       
-               oprop.f:  $Revision$                          postsub.f:     NOT USED       
-              pltlbl.f:     NOT USED                          testmm.f:     NOT USED       
+              fftscn.f:     NOT USED                          lblatm.f:  $Revision$
+              lbllow.f:     NOT USED                         ncargks.f:     NOT USED
+               oprop.f:  $Revision$                          postsub.f:     NOT USED
+              pltlbl.f:     NOT USED                          testmm.f:     NOT USED
               xmerge.f:  $Revision$                  util_linux_intel.f  $Revision: 10548 $
-               solar.f:     NOT USED                          nonlte.f:     NOT USED       
-
+               solar.f:     NOT USED                          nonlte.f:     NOT USED
