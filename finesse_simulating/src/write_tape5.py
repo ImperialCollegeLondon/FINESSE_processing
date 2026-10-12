@@ -294,7 +294,7 @@ def write_tape5(
         # (if IATM is set - AM=1) query zbound
         # (LRW) Change between user specified and standard atmosphere here
         file.write(
-            f"{0:5d}{horizontal:5d}{-1*n_levels:5d}{1:5d}{1:5d}{n_species:5d}{1:5d}{0:2d} {0:2d}{0:10.3f}{100.:10.3f}\n"
+            f"{0:5d}{horizontal:5d}{-1 * n_levels:5d}{1:5d}{1:5d}{n_species:5d}{1:5d}{0:2d} {0:2d}{0:10.3f}{100.0:10.3f}\n"
         )
         # user atm, specified path , molecular species
 
@@ -369,7 +369,7 @@ def write_tape5(
         # Appears it is necessary to avoid unit numbers 55 and 66 for output
         # TAPE12 is default LBL output, interpolate to TAPE11
         file.write(
-            f"{res:10.3F}{wn1 - .01:10.3F}{wn2 + .01:10.3F}{mode:5d}{0:5d}               {12:5d}          {11:5d}\n"
+            f"{res:10.3F}{wn1 - 0.01:10.3F}{wn2 + 0.01:10.3F}{mode:5d}{0:5d}               {12:5d}          {11:5d}\n"
         )
         if mode == 0:
             print("Calculating Transmission")
